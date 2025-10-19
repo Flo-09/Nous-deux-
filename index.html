@@ -5,38 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nous deux ❤️</title>
   <style>
-    /* --- BASE --- */
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
       background: linear-gradient(135deg, #ffdde1, #ee9ca7);
       color: #333;
-      text-align: center;
       overflow-x: hidden;
+      text-align: center;
+      position: relative;
     }
 
-    header {
-      padding: 50px 20px;
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(5px);
-      position: relative;
+    header, section {
+      text-align: center;
+      margin: 0 auto;
+      max-width: 800px;
+      padding: 20px;
+      position: relative; /* important pour que cœurs restent derrière */
       z-index: 2;
     }
 
     header h1 {
       font-size: 3em;
       color: #e60073;
+      margin-bottom: 10px;
     }
 
-    section {
-      padding: 60px 20px;
-      position: relative;
-      z-index: 2;
-    }
-
-    h2 {
+    section h2 {
       color: #c70039;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      font-size: 2em;
     }
 
     .timeline {
@@ -44,7 +41,8 @@
       flex-direction: column;
       gap: 15px;
       max-width: 600px;
-      margin: auto;
+      margin: 0 auto;
+      text-align: left;
     }
 
     .event {
@@ -52,18 +50,21 @@
       padding: 15px;
       border-radius: 12px;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      text-align: left;
     }
 
     .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-items: center;
+      align-items: center;
     }
 
     .gallery img {
-      width: 220px;
-      height: 220px;
+      width: 100%;
+      max-width: 220px;
+      aspect-ratio: 1/1;
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -76,7 +77,7 @@
 
     .counter {
       font-size: 2em;
-      margin-top: 20px;
+      margin: 20px auto;
       color: #d6336c;
     }
 
@@ -110,12 +111,12 @@
       margin-top: 50px;
       padding: 20px;
       background: rgba(255, 255, 255, 0.5);
-      position: relative;
       z-index: 2;
+      position: relative;
     }
 
-    /* --- Canvas & Bouton --- */
-    #heartsCanvas, #starsCanvas {
+    /* --- Canvas & bouton --- */
+    #starsCanvas, #heartsCanvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -147,257 +148,228 @@
       background: rgba(255, 192, 203, 0.9);
     }
 
-    /* --- Fade-in on scroll --- */
+    /* --- Fade-in --- */
     .fade-in {
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1s ease-out, transform 1s ease-out;
     }
+
     .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* --- RESPONSIVE DESIGN --- */
     @media (max-width: 600px) {
-      header {
-        padding: 30px 10px;
-      }
-      header h1 {
-        font-size: 2em;
-      }
-      section {
-        padding: 40px 10px;
-      }
-      .gallery img {
-        width: 150px;
-        height: 150px;
-      }
-      .counter {
-        font-size: 1.3em;
-      }
-      button {
-        font-size: 0.9em;
-        padding: 8px 16px;
-      }
-      .timeline {
-        max-width: 90%;
-      }
+      header h1 { font-size: 2em; }
+      section { padding: 15px; }
+      .gallery img { max-width: 150px; }
+      .counter { font-size: 1.3em; }
     }
   </style>
 </head>
 <body>
 
-  <canvas id="starsCanvas"></canvas>
-  <canvas id="heartsCanvas"></canvas>
-  <button id="toggleHearts">❤️‍🩹</button>
+<canvas id="starsCanvas"></canvas>
+<canvas id="heartsCanvas"></canvas>
+<button id="toggleHearts">❤️‍🩹</button>
 
-  <header class="fade-in">
-    <h1>❤️ Florian & Océane ❤️</h1>
-    <p>Un petit site juste pour nous deux</p>
-  </header>
+<header class="fade-in">
+  <h1>❤️ Florian & Océane ❤️</h1>
+  <p>Un petit site juste pour nous deux</p>
+</header>
 
-  <section class="fade-in">
-    <h2>Notre histoire 📖</h2>
-    <div class="timeline">
-      <div class="event">✨ 25/02/25 — Notre rencontre</div>
-      <div class="event">💕 02/03/25 — Premier rendez-vous</div>
-      <div class="event">🌍 03/08/25 — Premier voyage</div>
-    </div>
-  </section>
+<section class="fade-in">
+  <h2>Notre histoire 📖</h2>
+  <div class="timeline">
+    <div class="event">✨ 25/02/25 — Notre rencontre</div>
+    <div class="event">💕 02/03/25 — Premier rendez-vous</div>
+    <div class="event">🌍 03/08/25 — Premier voyage</div>
+  </div>
+</section>
 
-  <section class="gallery fade-in">
-    <h2>Nos souvenirs 📸</h2>
+<section class="fade-in">
+  <h2>Nos souvenirs 📸</h2>
+  <div class="gallery">
     <img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552147897_742654732087366_3821512649215913741_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=S8OQoInsjNoQ7kNvwGnchwf&_nc_oc=Adleg-pYppze1FOsu8MJhBWbC03FJBF1BI4tX0Iy9mrmcPn8P1kqjHZd0r7qR5L5yajf2l4uFiFIbFrRQeug-Gun&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3QH_gIE2J29Q2lCs1cUCfIqK5Vn5xTxTpPuog_Rl2ZnTFg&oe=6903BFBB" alt="souvenir1">
     <img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552404251_1137855684459692_7987479790922490764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=tis7W1MdunIQ7kNvwH_F4HT&_nc_oc=Adm0fCg_xZ66G7o1k6KqRNQChfsdiRwmqx9BICkEoBdOOh_WOpUMRddiXySWFiQDGfVJsoKIuy0Dd4X9uIf0wb_T&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3QGinnsdTX2704qtGhFSyy6FuCcfinD5VlIsYBa3f3z8cQ&oe=6903A604" alt="souvenir2">
     <img src="https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552692749_805201081992544_2906701065117446650_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=9BlnPiVqT3UQ7kNvwFue8TK&_nc_oc=Adki2iJcx9Ckr6j1qYvIE6WojgMKbC7Fm7axELMOVQv7m-f_S9Sxqqc1-WiNLsmUJT6ukxYNSTNl0OyH9Jjg8vh8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD3QEoky9AoRg5u-kKCNq0Zk4BKZIMeUcXdZvjhjcz4C6szw&oe=690397D9" alt="souvenir3">
-  </section>
+  </div>
+</section>
 
-  <section class="fade-in">
-    <h2>Le temps de notre couple ⏳</h2>
-    <div id="daysTogether" class="counter"></div>
-    <div id="ymdTogether" class="counter"></div>
-  </section>
+<section class="fade-in">
+  <h2>Le temps de notre couple ⏳</h2>
+  <div id="daysTogether" class="counter"></div>
+  <div id="ymdTogether" class="counter"></div>
+</section>
 
-  <section class="fade-in">
-    <h2>Nos petites inspirations ✨</h2>
-    <p class="quote">"L'amour, c'est regarder ensemble dans la même direction." – Antoine de Saint-Exupéry</p>
-    <p class="quote">"Avec toi, chaque jour devient un souvenir précieux ❤️"</p>
-  </section>
+<section class="fade-in">
+  <h2>Nos petites inspirations ✨</h2>
+  <p class="quote">"L'amour, c'est regarder ensemble dans la même direction." – Antoine de Saint-Exupéry</p>
+  <p class="quote">"Avec toi, chaque jour devient un souvenir précieux ❤️"</p>
+</section>
 
-  <section class="secret fade-in">
-    <h2>Un petit secret 💌</h2>
-    <button onclick="revealMessage()">Clique ici</button>
-    <p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;">Je t’aime plus que tout ❤️</p>
-  </section>
+<section class="secret fade-in">
+  <h2>Un petit secret 💌</h2>
+  <button onclick="revealMessage()">Clique ici</button>
+  <p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;">Je t’aime plus que tout ❤️</p>
+</section>
 
-  <section class="fade-in">
-    <h2>Nos 1 an 🎉</h2>
-    <div id="countdown" class="counter"></div>
-  </section>
+<section class="fade-in">
+  <h2>Nos 1 an 🎉</h2>
+  <div id="countdown" class="counter"></div>
+</section>
 
-  <footer>
-    <p>Créé avec amour par L'homme de ta vie 💕</p>
-  </footer>
+<footer>
+  <p>Créé avec amour par L'homme de ta vie 💕</p>
+</footer>
 
-  <script>
-    /* --- Compteurs de couple --- */
-    const startDate = new Date("2025-02-25");
-    const today = new Date();
-    const diffTime = Math.abs(today - startDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    document.getElementById("daysTogether").textContent = diffDays + " jours déjà 💖";
+<script>
+/* --- Compteurs --- */
+const startDate = new Date("2025-02-25");
+const today = new Date();
+const diffTime = Math.abs(today - startDate);
+const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+document.getElementById("daysTogether").textContent = diffDays + " jours déjà 💖";
 
-    function diffYMD(start, end) {
-      let years = end.getFullYear() - start.getFullYear();
-      let months = end.getMonth() - start.getMonth();
-      let days = end.getDate() - start.getDate();
-      if (days < 0) { months--; const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0); days += prevMonth.getDate(); }
-      if (months < 0) { years--; months += 12; }
-      return { years, months, days };
+function diffYMD(start, end) {
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  let days = end.getDate() - start.getDate();
+  if (days < 0) { months--; const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0); days += prevMonth.getDate(); }
+  if (months < 0) { years--; months += 12; }
+  return { years, months, days };
+}
+
+const { years, months, days } = diffYMD(startDate, today);
+document.getElementById("ymdTogether").textContent = `${years} an(s), ${months} mois et ${days} jour(s) 💕`;
+
+/* --- Secret --- */
+function revealMessage() { document.getElementById("secretMessage").style.display="block"; }
+
+/* --- Countdown --- */
+const targetDate = new Date("2026-02-25 00:00:00");
+function updateCountdown() {
+  const now = new Date();
+  const diff = targetDate - now;
+  if (diff <= 0) { document.getElementById("countdown").textContent="C'est le grand jour 🎊💖"; return; }
+  const days = Math.floor(diff/(1000*60*60*24));
+  const hours = Math.floor((diff/(1000*60*60))%24);
+  const minutes = Math.floor((diff/(1000*60))%60);
+  const seconds = Math.floor((diff/1000)%60);
+  document.getElementById("countdown").textContent=`${days}j ${hours}h ${minutes}m ${seconds}s avant 💕`;
+}
+setInterval(updateCountdown,1000); updateCountdown();
+
+/* --- Fade-in --- */
+function onScrollFadeIn() {
+  document.querySelectorAll('.fade-in').forEach(el=>{
+    if(el.getBoundingClientRect().top < window.innerHeight-100) el.classList.add('visible');
+  });
+}
+window.addEventListener('scroll', onScrollFadeIn);
+window.addEventListener('load', onScrollFadeIn);
+
+/* --- Stars & Hearts --- */
+const starsCanvas=document.getElementById("starsCanvas");
+const heartsCanvas=document.getElementById("heartsCanvas");
+const sCtx=starsCanvas.getContext("2d");
+const hCtx=heartsCanvas.getContext("2d");
+
+function resizeCanvas(){ starsCanvas.width=heartsCanvas.width=window.innerWidth; starsCanvas.height=heartsCanvas.height=window.innerHeight; }
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+const isMobile=window.innerWidth<600;
+const maxStars=isMobile?60:120;
+const maxHearts=isMobile?50:100;
+
+/* --- Stars --- */
+let stars=[]; 
+for(let i=0;i<maxStars;i++){ 
+  stars.push({x:Math.random()*starsCanvas.width, y:Math.random()*starsCanvas.height, radius:Math.random()*1.5+0.5, alpha:Math.random(), delta:Math.random()*0.02+0.01}); 
+}
+function animateStars(){
+  sCtx.clearRect(0,0,starsCanvas.width,starsCanvas.height);
+  stars.forEach(star=>{
+    star.alpha+=star.delta;
+    if(star.alpha>1||star.alpha<0) star.delta=-star.delta;
+    sCtx.beginPath();
+    sCtx.arc(star.x, star.y, star.radius,0,Math.PI*2);
+    sCtx.fillStyle=`rgba(255,255,255,${star.alpha})`;
+    sCtx.fill();
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+/* --- Hearts behind sections --- */
+class Heart{
+  constructor(){ 
+    this.x=Math.random()*heartsCanvas.width; 
+    this.y=-20; 
+    this.size=Math.random()*25+10; 
+    this.speed=Math.random()*1.2+0.3; 
+    this.opacity=Math.random()*0.5+0.5; 
+    this.color=this.randomColor(); 
+    this.fading = false; // flag pour disparition progressive
+  }
+  randomColor(){ 
+    const colors=["rgba(230,0,115,","rgba(255,105,180,","rgba(255,0,85,","rgba(186,85,211,"]; 
+    return colors[Math.floor(Math.random()*colors.length)]; 
+  }
+  draw(){ 
+    hCtx.save(); 
+    hCtx.translate(this.x,this.y); 
+    hCtx.scale(this.size/20,this.size/20); 
+    hCtx.fillStyle=this.color+this.opacity+")"; 
+    hCtx.beginPath(); 
+    hCtx.moveTo(0,0); 
+    hCtx.bezierCurveTo(-10,-10,-20,10,0,20); 
+    hCtx.bezierCurveTo(20,10,10,-10,0,0); 
+    hCtx.fill(); 
+    hCtx.restore(); 
+  }
+  update(){ 
+    this.y += this.speed; 
+    this.x += Math.sin(this.y/40)*0.4; 
+    if(this.fading){ 
+      this.opacity -= 0.01; 
+      if(this.opacity <= 0) this.remove = true; 
     }
+    this.draw(); 
+  }
+}
 
-    const { years, months, days } = diffYMD(startDate, today);
-    document.getElementById("ymdTogether").textContent = `${years} an(s), ${months} mois et ${days} jour(s) 💕`;
+let hearts=[]; 
+let heartsEnabled=true;
 
-    /* --- Secret message --- */
-    function revealMessage() {
-      document.getElementById("secretMessage").style.display = "block";
-    }
+function createHearts(){ 
+  if(heartsEnabled && hearts.length<maxHearts) hearts.push(new Heart()); 
+}
 
-    /* --- Compte à rebours 1 an --- */
-    const targetDate = new Date("2026-02-25 00:00:00");
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-      if (diff <= 0) {
-        document.getElementById("countdown").textContent = "C'est le grand jour 🎊💖";
-        return;
-      }
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      document.getElementById("countdown").textContent = `${days}j ${hours}h ${minutes}m ${seconds}s avant 💕`;
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+function animateHearts(){ 
+  hCtx.clearRect(0,0,heartsCanvas.width,heartsCanvas.height); 
+  for(let i=hearts.length-1;i>=0;i--){
+    hearts[i].update(); 
+    if(hearts[i].y>heartsCanvas.height+30 || hearts[i].remove) hearts.splice(i,1); 
+  } 
+  requestAnimationFrame(animateHearts); 
+}
 
-    /* --- Fade-in on scroll --- */
-    function onScrollFadeIn() {
-      const elements = document.querySelectorAll('.fade-in');
-      const windowHeight = window.innerHeight;
-      elements.forEach(el => {
-        const elementTop = el.getBoundingClientRect().top;
-        if (elementTop < windowHeight - 100) el.classList.add('visible');
-      });
-    }
-    window.addEventListener('scroll', onScrollFadeIn);
-    window.addEventListener('load', onScrollFadeIn);
+setInterval(createHearts,300); 
+animateHearts();
 
-    /* --- Animation étoiles et cœurs --- */
-    const starsCanvas = document.getElementById("starsCanvas");
-    const heartsCanvas = document.getElementById("heartsCanvas");
-    const sCtx = starsCanvas.getContext("2d");
-    const hCtx = heartsCanvas.getContext("2d");
+/* --- Toggle hearts avec disparition progressive --- */
+document.getElementById("toggleHearts").addEventListener("click", ()=>{
+  heartsEnabled = !heartsEnabled;
+  const btn = document.getElementById("toggleHearts");
+  btn.textContent = heartsEnabled ? "❤️‍🩹" : "❤️";
 
-    function resizeCanvas() {
-      starsCanvas.width = window.innerWidth;
-      starsCanvas.height = window.innerHeight;
-      heartsCanvas.width = window.innerWidth;
-      heartsCanvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    const isMobile = window.innerWidth < 600;
-    const maxStars = isMobile ? 60 : 120;
-    const maxHearts = isMobile ? 50 : 100;
-
-    /* --- Étoiles --- */
-    let stars = [];
-    for (let i = 0; i < maxStars; i++) {
-      stars.push({
-        x: Math.random() * starsCanvas.width,
-        y: Math.random() * starsCanvas.height,
-        radius: Math.random() * 1.5 + 0.5,
-        alpha: Math.random(),
-        delta: Math.random() * 0.02 + 0.01
-      });
-    }
-
-    function animateStars() {
-      sCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
-      stars.forEach(star => {
-        star.alpha += star.delta;
-        if (star.alpha > 1 || star.alpha < 0) star.delta = -star.delta;
-        sCtx.beginPath();
-        sCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        sCtx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-        sCtx.fill();
-      });
-      requestAnimationFrame(animateStars);
-    }
-    animateStars();
-
-    /* --- Cœurs --- */
-    class Heart {
-      constructor() {
-        this.x = Math.random() * heartsCanvas.width;
-        this.y = -20;
-        this.size = Math.random() * 25 + 10;
-        this.speed = Math.random() * 1.2 + 0.3;
-        this.opacity = Math.random() * 0.5 + 0.5;
-        this.color = this.randomColor();
-      }
-      randomColor() {
-        const colors = ["rgba(230,0,115,", "rgba(255,105,180,", "rgba(255,0,85,", "rgba(186,85,211,"];
-        return colors[Math.floor(Math.random() * colors.length)];
-      }
-      draw() {
-        hCtx.save();
-        hCtx.translate(this.x, this.y);
-        hCtx.scale(this.size / 20, this.size / 20);
-        hCtx.fillStyle = this.color + this.opacity + ")";
-        hCtx.beginPath();
-        hCtx.moveTo(0, 0);
-        hCtx.bezierCurveTo(-10, -10, -20, 10, 0, 20);
-        hCtx.bezierCurveTo(20, 10, 10, -10, 0, 0);
-        hCtx.fill();
-        hCtx.restore();
-      }
-      update() {
-        this.y += this.speed;
-        this.x += Math.sin(this.y / 40) * 0.4;
-        this.draw();
-      }
-    }
-
-    let hearts = [];
-    let heartsEnabled = true;
-
-    function createHearts() {
-      if (heartsEnabled && hearts.length < maxHearts) hearts.push(new Heart());
-    }
-
-    function animateHearts() {
-      hCtx.clearRect(0, 0, heartsCanvas.width, heartsCanvas.height);
-      for (let i = hearts.length - 1; i >= 0; i--) {
-        hearts[i].update();
-        if (hearts[i].y > heartsCanvas.height + 30) hearts.splice(i, 1);
-      }
-      requestAnimationFrame(animateHearts);
-    }
-    setInterval(createHearts, 300);
-    animateHearts();
-
-    /* --- Toggle cœurs --- */
-    const toggleBtn = document.getElementById("toggleHearts");
-    toggleBtn.addEventListener("click", () => {
-      heartsEnabled = !heartsEnabled;
-      toggleBtn.textContent = heartsEnabled ? "❤️‍🩹" : "❤️";
-      if (!heartsEnabled) hearts = [];
-    });
-  </script>
+  if(!heartsEnabled){
+    hearts.forEach(h => h.fading = true);
+  }
+});
+</script>
 </body>
 </html>

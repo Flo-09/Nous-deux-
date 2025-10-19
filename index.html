@@ -51,6 +51,12 @@
       border-radius: 12px;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
       text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .event:hover {
+      transform: scale(1.03);
     }
 
     .gallery {
@@ -160,11 +166,49 @@
       transform: translateY(0);
     }
 
+    /* --- Modal --- */
+    #eventModal {
+      display: none;
+      position: fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+    #eventModalContent {
+      background:#fff;
+      color:#333;
+      border-radius:12px;
+      max-width:600px;
+      width:100%;
+      padding:20px;
+      position:relative;
+    }
+    #eventModalContent img {
+      width:100px;
+      height:100px;
+      object-fit: cover;
+      border-radius:8px;
+    }
+    #closeModal {
+      position:absolute;
+      top:10px;
+      right:15px;
+      cursor:pointer;
+      font-size:22px;
+    }
+
     @media (max-width: 600px) {
       header h1 { font-size: 2em; }
       section { padding: 15px; }
       .gallery img { max-width: 150px; }
       .counter { font-size: 1.3em; }
+      #eventModalContent img { width:70px; height:70px; }
     }
   </style>
 </head>
@@ -182,9 +226,9 @@
 <section class="fade-in">
   <h2>Notre histoire 📖</h2>
   <div class="timeline">
-    <div class="event">✨ 25/02/25 — Notre rencontre</div>
-    <div class="event">💕 02/03/25 — Premier rendez-vous</div>
-    <div class="event">🌍 03/08/25 — Premier voyage</div>
+    <div class="event" onclick="openEvent('rencontre')">✨ 25/02/25 — Notre rencontre</div>
+    <div class="event" onclick="openEvent('rdv')">💕 02/03/25 — Premier rendez-vous</div>
+    <div class="event" onclick="openEvent('voyage')">🌍 03/08/25 — Premier voyage</div>
   </div>
 </section>
 
@@ -194,7 +238,6 @@
     <img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552147897_742654732087366_3821512649215913741_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=S8OQoInsjNoQ7kNvwGnchwf&_nc_oc=Adleg-pYppze1FOsu8MJhBWbC03FJBF1BI4tX0Iy9mrmcPn8P1kqjHZd0r7qR5L5yajf2l4uFiFIbFrRQeug-Gun&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3QH_gIE2J29Q2lCs1cUCfIqK5Vn5xTxTpPuog_Rl2ZnTFg&oe=6903BFBB" alt="souvenir1">
     <img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552404251_1137855684459692_7987479790922490764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=tis7W1MdunIQ7kNvwH_F4HT&_nc_oc=Adm0fCg_xZ66G7o1k6KqRNQChfsdiRwmqx9BICkEoBdOOh_WOpUMRddiXySWFiQDGfVJsoKIuy0Dd4X9uIf0wb_T&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3QGinnsdTX2704qtGhFSyy6FuCcfinD5VlIsYBa3f3z8cQ&oe=6903A604" alt="souvenir2">
     <img src="https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552692749_805201081992544_2906701065117446650_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=9BlnPiVqT3UQ7kNvwFue8TK&_nc_oc=Adki2iJcx9Ckr6j1qYvIE6WojgMKbC7Fm7axELMOVQv7m-f_S9Sxqqc1-WiNLsmUJT6ukxYNSTNl0OyH9Jjg8vh8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD3QEoky9AoRg5u-kKCNq0Zk4BKZIMeUcXdZvjhjcz4C6szw&oe=690397D9" alt="souvenir3">
-  </div>
 </section>
 
 <section class="fade-in">
@@ -215,7 +258,6 @@
   <p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;"></p>
 </section>
 
-
 <section class="fade-in">
   <h2>Nos 1 an 🎉</h2>
   <div id="countdown" class="counter"></div>
@@ -225,9 +267,68 @@
   <p>Créé avec amour par L'homme de ta vie 💕</p>
 </footer>
 
-
+<!-- --- Modale --- -->
+<div id="eventModal">
+  <div id="eventModalContent">
+    <span id="closeModal" onclick="closeModal()">✖</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalText"></p>
+    <div id="modalImages" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+  </div>
+</div>
 
 <script>
+/* --- Contenu des événements --- */
+const eventsContent = {
+  rencontre: {
+    title: "Notre rencontre ✨",
+    text: "Le jour où tout a commencé...",
+    images: [,
+    "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/565947956_832703592604250_7375068570335552591_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=esjqysiFbr0Q7kNvwFXDlyW&_nc_oc=Adn9Eb4nLLmtbaeJDg39zxNKY0onE_43KDp3rfHyVx5AFwCnTW6X7_eVPUk7JXGJqosdrfUNiOvJPp8STo2YskhA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3gHdLc6wps3YqbzZnciZWI-A4fsj6_nus8T1PI2Pp3Jg1Q&oe=691C982A",
+    "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/566415272_1514441862910650_1906958851862565330_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=5-P6GV8ACmYQ7kNvwGrC9kT&_nc_oc=AdmCYdJTumByXSWmB8uBpm6zZVD8JM6bJSSZsJB3LnvXb9SdsB9d0PXDXtoMZPAizjtHqC7Bj42gsIi6rGsw8VyK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD3gHd4z7yerMxCOtBjzQz_543FX3mlzjnqTLkUPrT60eYmQ&oe=691C8ABD",
+	"https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/565059621_1544705673207287_5272744791616260876_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=E23pby40zowQ7kNvwF2VkT9&_nc_oc=AdmOLx68lptlgBQ66COfd7GlB7PkW9NbDJJkekUrFARUx36afaMHkQGqt1QsU6yfcOk5oNNjUTCQH6RkV04XrAq9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD3gEpotdi62zNQWTpj1HtMIACsX0fKYKYDhrkiQyZUsNdFQ&oe=691C6595",
+	"https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/566510319_1485080576097460_3600261361555761558_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CI8nhCm5yYMQ7kNvwHRF0Lj&_nc_oc=AdlXMGXRJo80-52yPoAa_8E-cN9XvhynOQTxChrUaZ2xhD5wxCCqYdyiNny5IHmqGOOvFwYE2YvmxMTnwNIJwXHj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD3gFRxX1LtaHOyPkrvAPeM6Cyb1CxRP1rM5oOyZnMEpUe_Q&oe=691C90B7",
+	"https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/557424837_1328245215497661_32431183838990513_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=FgEfKxnpgVAQ7kNvwFB3PTt&_nc_oc=AdmmgOljplxO5gNimS5Mqma7HNxXIAHLqXPyz_hEPRzRm05CddI45BIdPiLycQsydqNk7UGtM2utQx4f1tYDWvpk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3gE5le73fxnIIiRO-j4Xn6vWKYIsZSbdEwnU7U_cfYdtfQ&oe=691C997D",
+	]
+  },
+  rdv: {
+    title: "Premier rendez-vous 💕",
+    text: "Un moment magique à se souvenir pour toujours.",
+    images: [
+      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/566546264_24888287834190515_8823837364860498529_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=5a3CHLhaovEQ7kNvwG7CGST&_nc_oc=AdlGliXSpAnOZbnmE0Sv6s6aUaK4GwUxn702WY9TGWl90KEL04OC_iUJHymjfNGR3_1oLQLcqNwORyOZ_hL0W6EI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3gGhF2K8mHVknAQypTcBAamCxQXa7gyGqaWNkJ3dqRTyKA&oe=691C845E"
+    ]
+  },
+  voyage: {
+    title: "Premier voyage 🌍",
+    text: "Notre première aventure ensemble !",
+    images: [
+      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/553985322_3685287368445956_2189040031096253129_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=ofkrgG3WjgkQ7kNvwG_2adN&_nc_oc=Adm5lPlD9eBWrVB1K98yyjbxq6v_qBOnBcwZXMGiR_kcCgdXkSRM1vvVC93HzPt2AarxTcUBLMOCKuHPl-Zb_CZz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3gGjUI2lGvkNvPInm0_uhKQsSTNqOalme6uQYps8TncbFA&oe=691C9824",
+	  "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/554200105_1905196953361656_3908972910829041996_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=T6Qrxxc-faUQ7kNvwEMyP6t&_nc_oc=Adk7RducIc9Y1cfTJrulyN1LGC4RfS-OX2nvhSu3BWklSKh4T_iCqySlsJnZdiJEJS4zGDf-ksmNfP1OLyt7004X&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD3gHnvyNZt0dx_SJbwSZaCcWnfJeDfsy7rfOIIsvKn5hPjg&oe=691C7696",
+	  "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/566595925_1309389213995571_8390455364654510605_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=sJrRD6RwgDkQ7kNvwFPF-3H&_nc_oc=AdnUDgGcl6uvG3GRwWDX0p8amEImxUuuhXRAWo_McHyoi5-BcdNEs4Nj0gBPU_C2W3ovgJl_e1EJuUMa4FZQLkKa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD3gEsMHrD7ybKiCmnTp8N5gOLZEFy8m_ClLv82gEk_18-Nw&oe=691C6932",
+    ]
+  }
+};
+
+function openEvent(key) {
+  const event = eventsContent[key];
+  document.getElementById("modalTitle").textContent = event.title;
+  document.getElementById("modalText").textContent = event.text;
+  
+  const modalImages = document.getElementById("modalImages");
+  modalImages.innerHTML = "";
+  event.images.forEach(url => {
+    const img = document.createElement("img");
+    img.src = url;
+    modalImages.appendChild(img);
+  });
+
+  document.getElementById("eventModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("eventModal").style.display = "none";
+}
+
 /* --- Compteurs --- */
 const startDate = new Date("2025-02-25");
 const today = new Date();
@@ -247,8 +348,36 @@ function diffYMD(start, end) {
 const { years, months, days } = diffYMD(startDate, today);
 document.getElementById("ymdTogether").textContent = `${years} an(s), ${months} mois et ${days} jour(s) 💕`;
 
-/* --- Secret --- */
-function revealMessage() { document.getElementById("secretMessage").style.display="block"; }
+/* --- Secret aléatoire --- */
+const secrets = [
+  "Je t’aime plus que tout ❤️",
+  "Chaque jour avec toi est un cadeau 💝",
+  "Ton sourire illumine ma journée 🌟",
+  "Tu es mon petit bonheur quotidien 😊",
+  "Avec toi, tout devient plus beau 💖",
+  "Mon cœur bat plus fort pour toi 💘",
+  "Rien n’est plus doux que tes câlins 🤗",
+  "Tu es mon rayon de soleil ☀️",
+  "Je pense à toi à chaque instant 💭",
+  "À tes côtés, je me sens invincible 💪❤️",
+  "Chaque moment avec toi est magique ✨",
+  "Tu es mon rêve devenu réalité 🌙",
+  "Mon amour pour toi grandit chaque jour 🌹",
+  "Je ne peux pas m’empêcher de sourire grâce à toi 😄",
+  "Tu rends ma vie plus légère et plus belle 🌈",
+  "Je t’adore infiniment 🥰",
+  "Mon cœur t’appartient totalement 💓",
+  "Rien n’est plus précieux que ton amour 💎",
+  "Chaque seconde loin de toi me manque 😢",
+  "Tu es mon univers entier 🌌"
+];
+
+function revealMessage() {
+  const msgEl = document.getElementById("secretMessage");
+  const randomIndex = Math.floor(Math.random() * secrets.length);
+  msgEl.textContent = secrets[randomIndex];
+  msgEl.style.display = "block";
+}
 
 /* --- Countdown --- */
 const targetDate = new Date("2026-02-25 00:00:00");
@@ -262,7 +391,8 @@ function updateCountdown() {
   const seconds = Math.floor((diff/1000)%60);
   document.getElementById("countdown").textContent=`${days}j ${hours}h ${minutes}m ${seconds}s avant 💕`;
 }
-setInterval(updateCountdown,1000); updateCountdown();
+setInterval(updateCountdown,1000); 
+updateCountdown();
 
 /* --- Fade-in --- */
 function onScrollFadeIn() {
@@ -373,36 +503,7 @@ document.getElementById("toggleHearts").addEventListener("click", ()=>{
     hearts.forEach(h => h.fading = true);
   }
 });
-/* --- Secret aléatoire --- */
-const secrets = [
-  "Je t’aime plus que tout ❤️",
-  "Chaque jour avec toi est un cadeau 💝",
-  "Ton sourire illumine ma journée 🌟",
-  "Tu es mon petit bonheur quotidien 😊",
-  "Avec toi, tout devient plus beau 💖",
-  "Mon cœur bat plus fort pour toi 💘",
-  "Rien n’est plus doux que tes câlins 🤗",
-  "Tu es mon rayon de soleil ☀️",
-  "Je pense à toi à chaque instant 💭",
-  "À tes côtés, je me sens invincible 💪❤️",
-  "Chaque moment avec toi est magique ✨",
-  "Tu es mon rêve devenu réalité 🌙",
-  "Mon amour pour toi grandit chaque jour 🌹",
-  "Je ne peux pas m’empêcher de sourire grâce à toi 😄",
-  "Tu rends ma vie plus légère et plus belle 🌈",
-  "Je t’adore infiniment 🥰",
-  "Mon cœur t’appartient totalement 💓",
-  "Rien n’est plus précieux que ton amour 💎",
-  "Chaque seconde loin de toi me manque 😢",
-  "Tu es mon univers entier 🌌"
-];
-
-function revealMessage() {
-  const msgEl = document.getElementById("secretMessage");
-  const randomIndex = Math.floor(Math.random() * secrets.length);
-  msgEl.textContent = secrets[randomIndex];
-  msgEl.style.display = "block";
-}
 </script>
+
 </body>
 </html>

@@ -212,8 +212,9 @@
 <section class="secret fade-in">
   <h2>Un petit secret 💌</h2>
   <button onclick="revealMessage()">Clique ici</button>
-  <p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;">Je t’aime plus que tout ❤️</p>
+  <p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;"></p>
 </section>
+
 
 <section class="fade-in">
   <h2>Nos 1 an 🎉</h2>
@@ -223,6 +224,8 @@
 <footer>
   <p>Créé avec amour par L'homme de ta vie 💕</p>
 </footer>
+
+
 
 <script>
 /* --- Compteurs --- */
@@ -370,6 +373,36 @@ document.getElementById("toggleHearts").addEventListener("click", ()=>{
     hearts.forEach(h => h.fading = true);
   }
 });
+/* --- Secret aléatoire --- */
+const secrets = [
+  "Je t’aime plus que tout ❤️",
+  "Chaque jour avec toi est un cadeau 💝",
+  "Ton sourire illumine ma journée 🌟",
+  "Tu es mon petit bonheur quotidien 😊",
+  "Avec toi, tout devient plus beau 💖",
+  "Mon cœur bat plus fort pour toi 💘",
+  "Rien n’est plus doux que tes câlins 🤗",
+  "Tu es mon rayon de soleil ☀️",
+  "Je pense à toi à chaque instant 💭",
+  "À tes côtés, je me sens invincible 💪❤️",
+  "Chaque moment avec toi est magique ✨",
+  "Tu es mon rêve devenu réalité 🌙",
+  "Mon amour pour toi grandit chaque jour 🌹",
+  "Je ne peux pas m’empêcher de sourire grâce à toi 😄",
+  "Tu rends ma vie plus légère et plus belle 🌈",
+  "Je t’adore infiniment 🥰",
+  "Mon cœur t’appartient totalement 💓",
+  "Rien n’est plus précieux que ton amour 💎",
+  "Chaque seconde loin de toi me manque 😢",
+  "Tu es mon univers entier 🌌"
+];
+
+function revealMessage() {
+  const msgEl = document.getElementById("secretMessage");
+  const randomIndex = Math.floor(Math.random() * secrets.length);
+  msgEl.textContent = secrets[randomIndex];
+  msgEl.style.display = "block";
+}
 </script>
 </body>
 </html>

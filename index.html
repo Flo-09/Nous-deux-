@@ -52,21 +52,33 @@ section h2 {
 .event:hover {
   transform: scale(1.03);
 }
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+  padding: 10px;
+}
+
 .gallery img {
   width: 100%;
   max-width: 220px;
   aspect-ratio: 1/1;
   object-fit: cover;
-  border-radius: 12px;
   
-  /* --- Ajout du style "souvenir" --- */
-  background: white;       /* fond blanc derrière l'image */
-  padding: 10px;           /* espace autour de l'image */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25); /* ombre douce */
-  transition: transform 0.3s ease;
+  /* --- Style "souvenir" fluide --- */
+  background: #fff;                 /* fond blanc doux */
+  padding: 12px;                    /* espace type Polaroid */
+  border-radius: 16px;              /* coins arrondis plus doux */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* ombre plus subtile */
+  transition: transform 0.5s ease, box-shadow 0.5s ease, rotate 0.5s ease;
+  cursor: pointer;
 }
+
 .gallery img:hover {
-  transform: scale(1.05);
+  transform: scale(1.08) rotate(-1deg); /* zoom léger + rotation */
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25); /* ombre plus prononcée */
 }
 .counter {
   font-size: 2em;
@@ -476,6 +488,7 @@ document.getElementById("toggleHearts").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 

@@ -384,8 +384,11 @@ const targetDate = new Date("2026-02-25 00:00:00");
 function updateCountdown() {
   const now = new Date();
   const diff = targetDate - now;
-  if (diff <= 0) { document.getElementById("countdown").textContent="C'est le grand jour 🎊💖"; return; }
-  const days = Math.floor(diff/(1000*60*60*24));
+ if (diff <= 0) { 
+  document.getElementById("countdown").textContent="💕 1 an déjà… et ce n’est que le début ❤️"; 
+  return; 
+}
+ const days = Math.floor(diff/(1000*60*60*24));
   const hours = Math.floor((diff/(1000*60*60))%24);
   const minutes = Math.floor((diff/(1000*60))%60);
   const seconds = Math.floor((diff/1000)%60);
@@ -507,6 +510,7 @@ document.getElementById("toggleHearts").addEventListener("click", ()=>{
 
 </body>
 </html>
+
 
 
 

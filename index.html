@@ -1,223 +1,197 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nous deux ❤️</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      color: #333;
-      overflow-x: hidden;
-      text-align: center;
-      position: relative;
-    }
-
-    header, section {
-      text-align: center;
-      margin: 0 auto;
-      max-width: 800px;
-      padding: 20px;
-      position: relative; /* important pour que cœurs restent derrière */
-      z-index: 2;
-    }
-
-    header h1 {
-      font-size: 3em;
-      color: #e60073;
-      margin-bottom: 10px;
-    }
-
-    section h2 {
-      color: #c70039;
-      margin-bottom: 25px;
-      font-size: 2em;
-    }
-
-   .timeline {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.event {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.event:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-}
-
-   .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  justify-content: center; /* centre les colonnes sur grand écran */
-  align-items: start;
-  margin: 0 auto;
-  max-width: 900px;
-}
-
-.gallery img {
-  width: 100%;
-  max-width: 250px; /* un peu plus grand sur PC */
-  height: auto;
-  object-fit: cover; /* remplissage plus joli */
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-    .counter {
-      font-size: 2em;
-      margin: 20px auto;
-      color: #d6336c;
-    }
-
-    .quote {
-      font-style: italic;
-      margin: 20px auto;
-      max-width: 500px;
-    }
-
-    .secret {
-      margin-top: 30px;
-    }
-
-    button {
-      background: #e60073;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1em;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      background: #c70039;
-      transform: scale(1.05);
-    }
-
-    footer {
-      margin-top: 50px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.5);
-      z-index: 2;
-      position: relative;
-    }
-
-    /* --- Canvas & bouton --- */
-    #starsCanvas, #heartsCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    #starsCanvas { z-index: 0; }
-    #heartsCanvas { z-index: 1; }
-
-    #toggleHearts {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(255, 255, 255, 0.9);
-      border: none;
-      border-radius: 50%;
-      padding: 12px 14px;
-      font-size: 22px;
-      cursor: pointer;
-      z-index: 1000;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    #toggleHearts:hover {
-      transform: scale(1.1);
-      background: rgba(255, 192, 203, 0.9);
-    }
-
-    /* --- Fade-in --- */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease-out, transform 1s ease-out;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* --- Modal --- */
-    #eventModal {
-      display: none;
-      position: fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      padding: 20px;
-    }
-    #eventModalContent {
-      background:#fff;
-      color:#333;
-      border-radius:12px;
-      max-width:600px;
-      width:100%;
-      padding:20px;
-      position:relative;
-    }
-    #eventModalContent img {
-  width: 100%;
-  max-width: 250px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-}
-    #closeModal {
-      position:absolute;
-      top:10px;
-      right:15px;
-      cursor:pointer;
-      font-size:22px;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 2em; }
-      section { padding: 15px; }
-      .gallery img { max-width: 150px; }
-      .counter { font-size: 1.3em; }
-     #eventModalContent img { max-width:150px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nous deux ❤️</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    color: #333;
+    overflow-x: hidden;
+    text-align: center;
+    position: relative;
+  }
+  header, section {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  header h1 {
+    font-size: 3em;
+    color: #e60073;
+    margin-bottom: 10px;
+  }
+  section h2 {
+    color: #c70039;
+    margin-bottom: 25px;
+    font-size: 2em;
+  }
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .event {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .event:hover {
+    transform: scale(1.03);
+  }
+  /* --- Gallery --- */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+  .counter {
+    font-size: 2em;
+    margin: 20px auto;
+    color: #d6336c;
+  }
+  .quote {
+    font-style: italic;
+    margin: 20px auto;
+    max-width: 500px;
+  }
+  .secret {
+    margin-top: 30px;
+  }
+  button {
+    background: #e60073;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover {
+    background: #c70039;
+    transform: scale(1.05);
+  }
+  footer {
+    margin-top: 50px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    position: relative;
+  }
+  /* --- Canvas & bouton --- */
+  #starsCanvas, #heartsCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  #starsCanvas { z-index: 0; }
+  #heartsCanvas { z-index: 1; }
+  #toggleHearts {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    padding: 12px 14px;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  #toggleHearts:hover {
+    transform: scale(1.1);
+    background: rgba(255, 192, 203, 0.9);
+  }
+  /* --- Fade-in --- */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* --- Modal --- */
+  #eventModal {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 20px;
+  }
+  #eventModalContent {
+    background:#fff;
+    color:#333;
+    border-radius:12px;
+    max-width:600px;
+    width:100%;
+    padding:20px;
+    position:relative;
+  }
+  #eventModalContent img {
+    width:100px;
+    height:100px;
+    object-fit: cover;
+    border-radius:8px;
+  }
+  #closeModal {
+    position:absolute;
+    top:10px;
+    right:15px;
+    cursor:pointer;
+    font-size:22px;
+  }
+  @media (max-width: 600px) {
+    header h1 { font-size: 2em; }
+    section { padding: 15px; }
+    .gallery img { height: 150px; }
+    .counter { font-size: 1.3em; }
+    #eventModalContent img { width:70px; height:70px; }
+  }
+</style>
 </head>
 <body>
-
 <canvas id="starsCanvas"></canvas>
 <canvas id="heartsCanvas"></canvas>
 <button id="toggleHearts">❤️‍🩹</button>
@@ -242,6 +216,7 @@
     <img src="https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552184327_1587523872230886_1142360198605256066_n.png?_nc_cat=104&ccb=1-7&_nc_sid=0024fc&_nc_ohc=c5EaIlaC5VgQ7kNvwEoQthY&_nc_oc=AdkaRp_GhWq_IbSsG8YoTYL0JWoFVDutgyl89V9XYcJ_tIfTFJafY3q62eK7n6wSyTA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD4QF1yrMRLs28j9NWnpQqILqBjFqf87hll7mOovgQA9mnIg&oe=699EA6BB" alt="souvenir1">
     <img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552147897_742654732087366_3821512649215913741_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=NHXFy18NgNYQ7kNvwHlOb4o&_nc_oc=AdkjRy79_we8LI5wiBZcGKV7kmAIweiXB7LPU_Ju5XDvCRQuyM9XKXpIBPxJmXjGVXM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4QHNe6SjCpq_xg_pbjxawhVS1YoI8XuuZ-p7lD9vBVgcSw&oe=699EA7FB" alt="souvenir2">
     <img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552404251_1137855684459692_7987479790922490764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=PzqyPPWUveoQ7kNvwFIAtt7&_nc_oc=AdkfEXBvhDjIt9_sr0YZzhIuxGmJlj2fFxkMSYnEUA18A6A90Db79iHIzLyNy9bzRYg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4QHR2UmbxYfQzWdJJQb6hLHMu3v22lgm-oNvu9aYZlQq_w&oe=699EC684" alt="souvenir3">
+  </div>
 </section>
 
 <section class="fade-in">
@@ -288,136 +263,109 @@ const eventsContent = {
     title: "Notre rencontre ✨",
     text: "Le jour où tout a commencé...",
     images: [
-    "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/619988776_1439745260822787_9013707766193792177_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=xHNWMUMgV4MQ7kNvwEoS59G&_nc_oc=Adlb_9bz3eqJPu4raYMkaFSlXFmNDPNu_jBglK3hWTNanytzx6HXAjTOlzaEiUsv5_w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD4QGk6vjzlnXPGgK-wqjB5qdBKsu4y5BUOzgBYxDu4830-w&oe=699EABF5",
-    "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/622497787_2324677914668128_5895193310223230235_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=UoUYFMg0lSoQ7kNvwFmUFtk&_nc_oc=AdntgavHmkFHQRBgZ87Imv6J0HZ8BzSBQUcflu-BON0nfF3hOJ-KhEZOxiJUz439ijk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4QEa5hbFTguArnF2J5_yQpYZU_BTKz22uArsuOvvqzSndw&oe=699EA0A3",
-	"https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/619988776_1439745260822787_9013707766193792177_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=xHNWMUMgV4MQ7kNvwEoS59G&_nc_oc=Adlb_9bz3eqJPu4raYMkaFSlXFmNDPNu_jBglK3hWTNanytzx6HXAjTOlzaEiUsv5_w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD4QGk6vjzlnXPGgK-wqjB5qdBKsu4y5BUOzgBYxDu4830-w&oe=699EABF5",
-	"https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/620186975_1908321979771955_7689446278053187536_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=Ko_FqwkmLnsQ7kNvwEHrXAy&_nc_oc=AdmqQxHSsxdN01P3aY8MCujYewdB_UCjA_HEkSh2x3KT-vAyG9Jv-zgYiAXlD7R-Hr4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4QEi9GRMz2EF0SXlOBFdaW2llvPV959b0Obr2Jm6HhcRGw&oe=699E9DDD",
-	"https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/620656074_26020736624223263_3052102789823492060_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=HRP-04EFHm0Q7kNvwFG7oNv&_nc_oc=Adk59RglBxLvs5mMFjM9JeeD0FrbhnuO7hgpg2UH8CBQk-Okq57m24mzV03Si8XqDEA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4QGJGvn39Exz0Vo1h9fgR8XRNKll3NJim3cCcWUPFo-DFA&oe=699EA9B9",
-	]
+      "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/619988776_1439745260822787_9013707766193792177_n.jpg",
+      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/622497787_2324677914668128_5895193310223230235_n.jpg"
+    ]
   },
   rdv: {
     title: "Premier rendez-vous 💕",
     text: "Un moment magique à se souvenir pour toujours.",
     images: [
-    "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/618341497_1388219976415493_3056603931016519401_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=6D8NyDtTn4AQ7kNvwGO1mAN&_nc_oc=AdlZl9G5B00XkBLojjWJYLndzi6DkVeA6seq0w3dUMm-hDB6zEGQC5w9QAWAn2F7FOM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD4QEcgdTQxIEG5byExNVsyPZ1PGtiufnvgkLHxBT8JJaDZQ&oe=699E89CB"
+      "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/618341497_1388219976415493_3056603931016519401_n.jpg"
     ]
   },
   voyage: {
     title: "Premier voyage 🌍",
     text: "Notre première aventure ensemble !",
     images: [
-      "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552692749_805201081992544_2906701065117446650_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=PSa70ZElKA0Q7kNvwFDGhus&_nc_oc=AdkvbZBrkgeyiFCbiE3vcMTJpPHRZmXfYP3w_5a-fd2qS9mFKmsTIqhfKkKyy5z69xkaLa5BJKADLQqMx6war2Tb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD4QGxnC5Pud8DNoHy1tIFn1y1pY0oIGGDqAN1O1crtXQPzA&oe=699E0F99",
-	  "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552031287_25091359693783974_2718792458154926623_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=hSiGX9F-uEcQ7kNvwF3s4hQ&_nc_oc=AdnJBarpaMk3Q_TR27vadVyH9zT5f4Gw2Q1_tewhMCy5Z3V4br-NEOP6PfaIMrpK6Yd6LzaeaeFzDE_cV33mdXXt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD4QFdgKyLazDirotws3WjL1G5xN97EfD_RsD32plUG6FTWw&oe=699E063E",
-	  "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/616839299_1423917219392194_8408366206800118445_n.png?stp=dst-png_s640x640&_nc_cat=102&ccb=1-7&_nc_sid=0024fc&_nc_ohc=05JG8VHRKWMQ7kNvwG95KPi&_nc_oc=AdmXUNLVqTX8pcTUA3DjMXkAUbbaLDN_8lcddA9gRVPm-6qKq_diOXyFP3f15heYHLY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD4QFuf4Mp3y49docwOQeXpbtIwks-8RDaguvEBGng3OC9vw&oe=699E9F30"
+      "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552692749_805201081992544_2906701065117446650_n.png",
+      "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552031287_25091359693783974_2718792458154926623_n.png"
     ]
   }
 };
 
-function openEvent(key) {
+function openEvent(key){
   const event = eventsContent[key];
   document.getElementById("modalTitle").textContent = event.title;
   document.getElementById("modalText").textContent = event.text;
-  
   const modalImages = document.getElementById("modalImages");
   modalImages.innerHTML = "";
-  event.images.forEach(url => {
-    const img = document.createElement("img");
-    img.src = url;
+  event.images.forEach(url=>{
+    const img=document.createElement("img");
+    img.src=url;
     modalImages.appendChild(img);
   });
-
-  document.getElementById("eventModal").style.display = "flex";
+  document.getElementById("eventModal").style.display="flex";
 }
-
-function closeModal() {
-  document.getElementById("eventModal").style.display = "none";
-}
+function closeModal(){document.getElementById("eventModal").style.display="none";}
 
 /* --- Compteurs --- */
 const startDate = new Date("2025-02-25");
 const today = new Date();
 const diffTime = Math.abs(today - startDate);
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+const diffDays = Math.ceil(diffTime / (1000*60*60*24));
 document.getElementById("daysTogether").textContent = diffDays + " jours déjà 💖";
 
-function diffYMD(start, end) {
-  let years = end.getFullYear() - start.getFullYear();
-  let months = end.getMonth() - start.getMonth();
-  let days = end.getDate() - start.getDate();
-  if (days < 0) { months--; const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0); days += prevMonth.getDate(); }
-  if (months < 0) { years--; months += 12; }
-  return { years, months, days };
+function diffYMD(start,end){
+  let years=end.getFullYear()-start.getFullYear();
+  let months=end.getMonth()-start.getMonth();
+  let days=end.getDate()-start.getDate();
+  if(days<0){months--; const prevMonth=new Date(end.getFullYear(),end.getMonth(),0); days+=prevMonth.getDate();}
+  if(months<0){years--; months+=12;}
+  return {years,months,days};
 }
-
-const { years, months, days } = diffYMD(startDate, today);
+const {years,months,days} = diffYMD(startDate,today);
 document.getElementById("ymdTogether").textContent = `${years} an(s), ${months} mois et ${days} jour(s) 💕`;
 
 /* --- Secret aléatoire --- */
-const secrets = [
+const secrets=[
   "Je t’aime plus que tout ❤️",
   "Chaque jour avec toi est un cadeau 💝",
   "Ton sourire illumine ma journée 🌟",
   "Tu es mon petit bonheur quotidien 😊",
-  "Avec toi, tout devient plus beau 💖",
-  "Mon cœur bat plus fort pour toi 💘",
-  "Rien n’est plus doux que tes câlins 🤗",
-  "Tu es mon rayon de soleil ☀️",
-  "Je pense à toi à chaque instant 💭",
-  "À tes côtés, je me sens invincible 💪❤️",
-  "Chaque moment avec toi est magique ✨",
-  "Tu es mon rêve devenu réalité 🌙",
-  "Mon amour pour toi grandit chaque jour 🌹",
-  "Je ne peux pas m’empêcher de sourire grâce à toi 😄",
-  "Tu rends ma vie plus légère et plus belle 🌈",
-  "Je t’adore infiniment 🥰",
-  "Mon cœur t’appartient totalement 💓",
-  "Rien n’est plus précieux que ton amour 💎",
-  "Chaque seconde loin de toi me manque 😢",
-  "Tu es mon univers entier 🌌"
+  "Avec toi, tout devient plus beau 💖"
 ];
-
-function revealMessage() {
-  const msgEl = document.getElementById("secretMessage");
-  const randomIndex = Math.floor(Math.random() * secrets.length);
-  msgEl.textContent = secrets[randomIndex];
-  msgEl.style.display = "block";
+function revealMessage(){
+  const msgEl=document.getElementById("secretMessage");
+  const randomIndex=Math.floor(Math.random()*secrets.length);
+  msgEl.textContent=secrets[randomIndex];
+  msgEl.style.display="block";
 }
 
 /* --- Countdown --- */
 const targetDate = new Date("2026-02-25 00:00:00");
-function updateCountdown() {
-  const now = new Date();
-  const diff = targetDate - now;
- if (diff <= 0) { 
-  document.getElementById("countdown").textContent="💕 1 an déjà… et ce n’est que le début ❤️"; 
-  return; 
-}
- const days = Math.floor(diff/(1000*60*60*24));
-  const hours = Math.floor((diff/(1000*60*60))%24);
-  const minutes = Math.floor((diff/(1000*60))%60);
-  const seconds = Math.floor((diff/1000)%60);
+function updateCountdown(){
+  const now=new Date();
+  const diff=targetDate-now;
+  if(diff<=0){document.getElementById("countdown").textContent="C'est le grand jour 🎊💖"; return;}
+  const days=Math.floor(diff/(1000*60*60*24));
+  const hours=Math.floor((diff/(1000*60*60))%24);
+  const minutes=Math.floor((diff/(1000*60))%60);
+  const seconds=Math.floor((diff/1000)%60);
   document.getElementById("countdown").textContent=`${days}j ${hours}h ${minutes}m ${seconds}s avant 💕`;
 }
-setInterval(updateCountdown,1000); 
+setInterval(updateCountdown,1000);
 updateCountdown();
 
 /* --- Fade-in --- */
-function onScrollFadeIn() {
+function onScrollFadeIn(){
   document.querySelectorAll('.fade-in').forEach(el=>{
     if(el.getBoundingClientRect().top < window.innerHeight-100) el.classList.add('visible');
   });
 }
-window.addEventListener('scroll', onScrollFadeIn);
-window.addEventListener('load', onScrollFadeIn);
+window.addEventListener('scroll',onScrollFadeIn);
+window.addEventListener('load',onScrollFadeIn);
 
 /* --- Stars & Hearts --- */
 const starsCanvas=document.getElementById("starsCanvas");
 const heartsCanvas=document.getElementById("heartsCanvas");
 const sCtx=starsCanvas.getContext("2d");
 const hCtx=heartsCanvas.getContext("2d");
-
-function resizeCanvas(){ starsCanvas.width=heartsCanvas.width=window.innerWidth; starsCanvas.height=heartsCanvas.height=window.innerHeight; }
-window.addEventListener("resize", resizeCanvas);
+function resizeCanvas(){
+  starsCanvas.width=heartsCanvas.width=window.innerWidth;
+  starsCanvas.height=heartsCanvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resizeCanvas);
 resizeCanvas();
 
 const isMobile=window.innerWidth<600;
@@ -425,9 +373,9 @@ const maxStars=isMobile?60:120;
 const maxHearts=isMobile?50:100;
 
 /* --- Stars --- */
-let stars=[]; 
-for(let i=0;i<maxStars;i++){ 
-  stars.push({x:Math.random()*starsCanvas.width, y:Math.random()*starsCanvas.height, radius:Math.random()*1.5+0.5, alpha:Math.random(), delta:Math.random()*0.02+0.01}); 
+let stars=[];
+for(let i=0;i<maxStars;i++){
+  stars.push({x:Math.random()*starsCanvas.width, y:Math.random()*starsCanvas.height, radius:Math.random()*1.5+0.5, alpha:Math.random(), delta:Math.random()*0.02+0.01});
 }
 function animateStars(){
   sCtx.clearRect(0,0,starsCanvas.width,starsCanvas.height);
@@ -435,7 +383,7 @@ function animateStars(){
     star.alpha+=star.delta;
     if(star.alpha>1||star.alpha<0) star.delta=-star.delta;
     sCtx.beginPath();
-    sCtx.arc(star.x, star.y, star.radius,0,Math.PI*2);
+    sCtx.arc(star.x,star.y,star.radius,0,Math.PI*2);
     sCtx.fillStyle=`rgba(255,255,255,${star.alpha})`;
     sCtx.fill();
   });
@@ -443,84 +391,46 @@ function animateStars(){
 }
 animateStars();
 
-/* --- Hearts behind sections --- */
+/* --- Hearts --- */
 class Heart{
-  constructor(){ 
-    this.x=Math.random()*heartsCanvas.width; 
-    this.y=-20; 
-    this.size=Math.random()*25+10; 
-    this.speed=Math.random()*1.2+0.3; 
-    this.opacity=Math.random()*0.5+0.5; 
-    this.color=this.randomColor(); 
-    this.fading = false; // flag pour disparition progressive
+  constructor(){
+    this.x=Math.random()*heartsCanvas.width;
+    this.y=-20;
+    this.size=Math.random()*25+10;
+    this.speed=Math.random()*1.2+0.3;
+    this.opacity=Math.random()*0.7+0.3;
   }
-  randomColor(){ 
-    const colors=["rgba(230,0,115,","rgba(255,105,180,","rgba(255,0,85,","rgba(186,85,211,"]; 
-    return colors[Math.floor(Math.random()*colors.length)]; 
+  draw(){
+    const ctx=hCtx;
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.beginPath();
+    const topCurveHeight=this.size*0.3;
+    ctx.moveTo(0,topCurveHeight);
+    ctx.bezierCurveTo(0,-topCurveHeight,this.size/2,-topCurveHeight,this.size/2,0);
+    ctx.bezierCurveTo(this.size/2,this.size/2,0,this.size,this.size, this.size*0.7);
+    ctx.bezierCurveTo(0,this.size,this.size/(-2),this.size/2,-this.size/2,0);
+    ctx.bezierCurveTo(-this.size/2,-topCurveHeight,0,-topCurveHeight,0,topCurveHeight);
+    ctx.fillStyle=`rgba(255,0,100,${this.opacity})`;
+    ctx.fill();
+    ctx.restore();
   }
-  draw(){ 
-    hCtx.save(); 
-    hCtx.translate(this.x,this.y); 
-    hCtx.scale(this.size/20,this.size/20); 
-    hCtx.fillStyle=this.color+this.opacity+")"; 
-    hCtx.beginPath(); 
-    hCtx.moveTo(0,0); 
-    hCtx.bezierCurveTo(-10,-10,-20,10,0,20); 
-    hCtx.bezierCurveTo(20,10,10,-10,0,0); 
-    hCtx.fill(); 
-    hCtx.restore(); 
-  }
-  update(){ 
-    this.y += this.speed; 
-    this.x += Math.sin(this.y/40)*0.4; 
-    if(this.fading){ 
-      this.opacity -= 0.01; 
-      if(this.opacity <= 0) this.remove = true; 
-    }
-    this.draw(); 
+  update(){
+    this.y+=this.speed;
+    if(this.y>heartsCanvas.height+50) {this.y=-20; this.x=Math.random()*heartsCanvas.width;}
+    this.draw();
   }
 }
-
-let hearts=[]; 
-let heartsEnabled=true;
-
-function createHearts(){ 
-  if(heartsEnabled && hearts.length<maxHearts) hearts.push(new Heart()); 
+let hearts=[];
+for(let i=0;i<maxHearts;i++){hearts.push(new Heart());}
+let heartsVisible=true;
+function animateHearts(){
+  hCtx.clearRect(0,0,heartsCanvas.width,heartsCanvas.height);
+  if(heartsVisible) hearts.forEach(h=>h.update());
+  requestAnimationFrame(animateHearts);
 }
-
-function animateHearts(){ 
-  hCtx.clearRect(0,0,heartsCanvas.width,heartsCanvas.height); 
-  for(let i=hearts.length-1;i>=0;i--){
-    hearts[i].update(); 
-    if(hearts[i].y>heartsCanvas.height+30 || hearts[i].remove) hearts.splice(i,1); 
-  } 
-  requestAnimationFrame(animateHearts); 
-}
-
-setInterval(createHearts,300); 
 animateHearts();
-
-/* --- Toggle hearts avec disparition progressive --- */
-document.getElementById("toggleHearts").addEventListener("click", ()=>{
-  heartsEnabled = !heartsEnabled;
-  const btn = document.getElementById("toggleHearts");
-  btn.textContent = heartsEnabled ? "❤️‍🩹" : "❤️";
-
-  if(!heartsEnabled){
-    hearts.forEach(h => h.fading = true);
-  }
-});
+document.getElementById("toggleHearts").addEventListener("click",()=>{heartsVisible=!heartsVisible;});
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

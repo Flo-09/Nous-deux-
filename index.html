@@ -495,6 +495,10 @@ document.getElementById("toggleHearts").addEventListener("click", () => {
 });
   /* ===== 💍 DEMANDE EN MARIAGE SECRÈTE ===== */
 
+/* =========================
+   COMPTEUR & PROPOSITION
+========================= */
+
 const proposalDate = new Date("2032-07-25T00:00:00");
 const revealDate = new Date(proposalDate.getTime() - (24 * 60 * 60 * 1000));
 
@@ -507,18 +511,23 @@ function updateProposal() {
 
   const diff = proposalDate - now;
 
+  // Quand le jour est arrivé
   if (now >= proposalDate) {
     proposalEl.innerHTML = "💍 25 Juillet 2032 — Elle a dit OUI ❤️";
     countdownEl.textContent = "C'est le plus beau jour de notre vie 💖";
+    eventsContent.mariage.text =
+      "Le 25 Juillet 2032... Le jour où je te demanderai de passer ta vie avec moi ❤️";
     return;
   }
 
+  // Avant le jour J, mais après le reveal
   if (now >= revealDate) {
     proposalEl.innerHTML = "💍 25 Juillet 2032 — Demande en mariage";
   } else {
     proposalEl.innerHTML = "💍 Demande en mariage...";
   }
 
+  // Calcul du compte à rebours
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
@@ -528,32 +537,15 @@ function updateProposal() {
     `${days}j ${hours}h ${minutes}m ${seconds}s avant le moment le plus important 💕`;
 }
 
+// Lancer la fonction toutes les secondes
 setInterval(updateProposal, 1000);
 updateProposal();
-
-const proposalDate = new Date("2032-07-25T00:00:00");
-const revealDate = new Date(proposalDate.getTime() - (24 * 60 * 60 * 1000));
-
-function updateProposalEvent() {
-  const now = new Date();
-  const proposalEl = document.getElementById("proposalEvent");
-
-  if (!proposalEl) return;
-
-  if (now >= revealDate) {
-    proposalEl.innerHTML = "💍 25 Juillet 2032 — Demande en mariage";
-    eventsContent.mariage.text =
-      "Le 25 Juillet 2032... Le jour où je te demanderai de passer ta vie avec moi ❤️";
-  } else {
-    proposalEl.innerHTML = "💍 Demande en mariage...";
-  }
-}
-
 updateProposalEvent();
 setInterval(updateProposalEvent, 60000);
 </script>
 </body>
 </html>
+
 
 
 

@@ -211,6 +211,11 @@ footer {
   <div class="event" onclick="openEvent('rencontre')">✨ 25/02/25 — Notre rencontre</div>
   <div class="event" onclick="openEvent('rdv')">💕 02/03/25 — Premier rendez-vous</div>
   <div class="event" onclick="openEvent('voyage')">🌍 03/08/25 — Premier voyage</div>
+
+  <!-- 💍 NOUVEL ÉVÉNEMENT -->
+  <div class="event" id="proposalEvent" onclick="openEvent('mariage')">
+    💍 Demande en mariage...
+  </div>
 </div>
 </section>
 
@@ -289,6 +294,11 @@ const eventsContent = {
     ]
   }
 };
+    mariage: {
+    title: "💍 Demande en mariage",
+    text: "Un moment unique qui changera notre vie pour toujours...",
+    images: []
+  },
 
 function openEvent(key) {
   const event = eventsContent[key];
@@ -485,9 +495,32 @@ document.getElementById("toggleHearts").addEventListener("click", () => {
   btn.textContent = heartsEnabled ? "❤️‍🩹" : "❤️";
   if (!heartsEnabled) hearts.forEach(h => h.fading = true);
 });
+  /* ===== 💍 LOGIQUE DEMANDE EN MARIAGE ===== */
+
+const proposalDate = new Date("2032-07-25T00:00:00");
+const revealDate = new Date(proposalDate.getTime() - (24 * 60 * 60 * 1000));
+
+function updateProposalEvent() {
+  const now = new Date();
+  const proposalEl = document.getElementById("proposalEvent");
+
+  if (!proposalEl) return;
+
+  if (now >= revealDate) {
+    proposalEl.innerHTML = "💍 25 Juillet 2032 — Demande en mariage";
+    eventsContent.mariage.text =
+      "Le 25 Juillet 2032... Le jour où je te demanderai de passer ta vie avec moi ❤️";
+  } else {
+    proposalEl.innerHTML = "💍 Demande en mariage...";
+  }
+}
+
+updateProposalEvent();
+setInterval(updateProposalEvent, 60000);
 </script>
 </body>
 </html>
+
 
 
 

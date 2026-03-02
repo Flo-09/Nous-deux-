@@ -44,7 +44,7 @@ section h2 {
   background: white;
   padding: 15px;
   border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   text-align: left;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -60,25 +60,21 @@ section h2 {
   align-items: center;
   padding: 10px;
 }
-
 .gallery img {
   width: 100%;
   max-width: 220px;
   aspect-ratio: 1/1;
   object-fit: cover;
-  
-  /* --- Style "souvenir" fluide --- */
-  background: #fff;                 /* fond blanc doux */
-  padding: 12px;                    /* espace type Polaroid */
-  border-radius: 16px;              /* coins arrondis plus doux */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* ombre plus subtile */
+  background: #fff;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   transition: transform 0.5s ease, box-shadow 0.5s ease, rotate 0.5s ease;
   cursor: pointer;
 }
-
 .gallery img:hover {
-  transform: scale(1.08) rotate(-1deg); /* zoom léger + rotation */
-  box-shadow: 0 12px 25px rgba(0,0,0,0.25); /* ombre plus prononcée */
+  transform: scale(1.08) rotate(-1deg);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 .counter {
   font-size: 2em;
@@ -136,11 +132,11 @@ footer {
   cursor: pointer;
   z-index: 1000;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 #toggleHearts:hover {
   transform: scale(1.1);
-  background: rgba(255, 192, 203, 0.9);
+  background: rgba(255,192,203,0.9);
 }
 .fade-in {
   opacity: 0;
@@ -186,349 +182,212 @@ footer {
   cursor:pointer;
   font-size:22px;
 }
-@media (max-width: 600px) {
-  header h1 { font-size: 2em; }
-  section { padding: 15px; }
-  .gallery img { max-width: 150px; }
-  .counter { font-size: 1.3em; }
-  #eventModalContent img { width:70px; height:70px; }
+@media (max-width:600px){
+  header h1{ font-size:2em; }
+  section{ padding:15px; }
+  .gallery img{ max-width:150px; }
+  .counter{ font-size:1.3em; }
+  #eventModalContent img{ width:70px; height:70px; }
 }
 </style>
 </head>
 <body>
 <canvas id="starsCanvas"></canvas>
 <canvas id="heartsCanvas"></canvas>
-<button id="toggleHearts">❤️‍🩹</button>
+<button id="toggleHearts">💖 Cœurs ON</button>
 
 <header class="fade-in">
-<h1>❤️ Florian & Océane ❤️</h1>
-<p>Un petit site juste pour nous deux</p>
+  <h1>❤️ Florian & Océane ❤️</h1>
+  <p>Un petit site juste pour nous deux</p>
 </header>
 
 <section class="fade-in">
-<h2>Notre histoire 📖</h2>
-<div class="timeline">
-  <div class="event" onclick="openEvent('rencontre')">✨ 25/02/25 — Notre rencontre</div>
-  <div class="event" onclick="openEvent('rdv')">💕 02/03/25 — Premier rendez-vous</div>
-  <div class="event" onclick="openEvent('voyage')">🌍 03/08/25 — Premier voyage</div>
-
-  <!-- 💍 NOUVEL ÉVÉNEMENT -->
-  <div class="event" id="proposalEvent" onclick="openEvent('mariage')">
-    💍 Demande en mariage...
+  <h2>Notre histoire 📖</h2>
+  <div class="timeline">
+    <div class="event" onclick="openEvent('rencontre')">✨ 25/02/25 — Notre rencontre</div>
+    <div class="event" onclick="openEvent('rdv')">💕 02/03/25 — Premier rendez-vous</div>
+    <div class="event" onclick="openEvent('voyage')">🌍 03/08/25 — Premier voyage</div>
+    <div class="event" id="proposalEvent" onclick="openEvent('mariage')">💍 Demande en mariage...</div>
   </div>
-</div>
 </section>
 
 <section class="fade-in">
-<h2>Nos souvenirs 📸</h2>
-<div class="gallery">
-<img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552404251_1137855684459692_7987479790922490764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_ohc=l74iBkfVusYQ7kNvwGvP8Lu&_nc_oc=Adnp2SZOzSNV9IYJLCAwaThrlUoHbQIiOEZ21bd5o0yrmRMo-QnWxGBFF-qpE55ocpcOurE5pxI5h9DuixaZK2RI&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&_nc_ss=8&oh=03_Q7cD4wF5grDZrE9gW23ILe-pTum-fjzxBxZbyrMSfAmbI_uK5A&oe=69CD93C4" alt="souvenir1">
-<img src="https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/552147897_742654732087366_3821512649215913741_n.png?_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_ohc=kmW4_ZLOibUQ7kNvwEBrt4j&_nc_oc=Adl1uqfl3jj_JKuIufBLLsRuPDklexidGygoaA_2aFZrD259SXhWDbtZI9g-1QH8rpKV9mWJ4MhWnzgFAmSqATDq&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&_nc_ss=8&oh=03_Q7cD4wG0FdZInzNvoxRb9yr6KQRHXTfqnh9gV0upITl4FgHj0g&oe=69CD753B" alt="souvenir2">
-<img src="https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552184327_1587523872230886_1142360198605256066_n.png?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=mrr0KaJybggQ7kNvwEPYmBd&_nc_oc=AdmJBKXjoy9ln1L-kcO9byDn_RSUVlBePLSHZKmfl-DX97mObzULfcS5BpYNeqLolLXwLp-4AgfMHJ2Cb_vYRZrR&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&_nc_ss=8&oh=03_Q7cD4wGhJbbAWeXvS_ULy0S1N43bADkh9H6fkRvLqQ297VjSwQ&oe=69CD73FB" alt="souvenir3">
-</div>
+  <h2>Nos souvenirs 📸</h2>
+  <div class="gallery">
+    <img src="https://picsum.photos/300?random=1" alt="souvenir1">
+    <img src="https://picsum.photos/300?random=2" alt="souvenir2">
+    <img src="https://picsum.photos/300?random=3" alt="souvenir3">
+  </div>
 </section>
 
 <section class="fade-in">
-<h2>Le temps de notre couple ⏳</h2>
-<div id="daysTogether" class="counter"></div>
-<div id="ymdTogether" class="counter"></div>
+  <h2>Le temps de notre couple ⏳</h2>
+  <div id="daysTogether" class="counter"></div>
+  <div id="ymdTogether" class="counter"></div>
 </section>
 
 <section class="fade-in">
-<h2>Nos petites inspirations ✨</h2>
-<p class="quote">"L'amour, c'est regarder ensemble dans la même direction." – Antoine de Saint-Exupéry</p>
-<p class="quote">"Avec toi, chaque jour devient un souvenir précieux ❤️"</p>
+  <h2>Nos petites inspirations ✨</h2>
+  <p class="quote">"L'amour, c'est regarder ensemble dans la même direction." – Antoine de Saint-Exupéry</p>
+  <p class="quote">"Avec toi, chaque jour devient un souvenir précieux ❤️"</p>
 </section>
 
 <section class="secret fade-in">
-<h2>Un petit secret 💌</h2>
-<button onclick="revealMessage()">Clique ici</button>
-<p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;"></p>
+  <h2>Un petit secret 💌</h2>
+  <button onclick="revealMessage()">Clique ici</button>
+  <p id="secretMessage" style="display:none; margin-top:15px; font-weight:bold; color:#e60073;"></p>
 </section>
 
 <section class="fade-in">
-<h2>💍 Demande en mariage</h2>
-<div id="proposalCountdown" class="counter"></div>
+  <h2>💍 Demande en mariage</h2>
+  <div id="proposalCountdown" class="counter"></div>
 </section>
 
 <footer>
-<p>Créé avec amour par L'homme de ta vie 💕</p>
+  <p>Créé avec amour par L'homme de ta vie 💕</p>
 </footer>
 
 <div id="eventModal">
-<div id="eventModalContent">
-<span id="closeModal" onclick="closeModal()">✖</span>
-<h2 id="modalTitle"></h2>
-<p id="modalText"></p>
-<div id="modalImages" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
-</div>
+  <div id="eventModalContent">
+    <span id="closeModal" onclick="closeModal()">✖</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalText"></p>
+    <div id="modalImages" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+  </div>
 </div>
 
 <script>
-/* =========================
-   CONTENU DES ÉVÉNEMENTS
-========================= */
+// ======== EVENTS CONTENT ========
 const eventsContent = {
-  rencontre: {
-    title: "Notre rencontre ✨",
-    text: "Le jour où tout a commencé...",
-    images: [
-      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/621130427_874941288854905_7373200593692494101_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_ohc=qs02MEm10ToQ7kNvwG5tPcc&_nc_oc=AdkPndCtSjpGOZ8QNMUQmDOKlqJCddCt8d_B13WELymZr92c0WG7S82MvI8BX4Ztd6ubTywHOtCk2paSov7WzNDK&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4gF6Oao5WSx8Dh-jpTXQGb2Sw-VqpMk65fifIg2OI_7J1Q&oe=69C5057A",
-      "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/619988776_1439745260822787_9013707766193792177_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=9f807c&_nc_ohc=uUbQU1DcflUQ7kNvwH2NTFn&_nc_oc=AdnCTQPMa3o4tuqyOvToWbFIWs2s25QEqVmjVccWwQuyaSCCVWINinE_3OmgaTZ5KgD3_-i8dB-ZZETekv-KW0if&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD4gFhZACMtb9WBjuNOGbhMbN6xwVQbtnaOy65b1PTuuOOOw&oe=69C51FB5",
-      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/620186975_1908321979771955_7689446278053187536_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_ohc=KELz8KSkyaEQ7kNvwEreFr_&_nc_oc=Adl0jSH0giR2s6VwnI7kq6GJjZo8syHZUcxXiB_wN7pq1MHVTrU251tgAGMTv9LqCVg8rM7y1AdHb9OCdBJ4CuZg&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4gE5_VIXDXrkVr4AsstQ83Q_6mLShB5edr3OJO5-nm6WMQ&oe=69C5119D",
-      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/620656074_26020736624223263_3052102789823492060_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=109&ccb=1-7&_nc_sid=9f807c&_nc_ohc=PLXR6EQJKsAQ7kNvwHHdNoE&_nc_oc=Adm3coFu6sNveE-D_vaGmWYI8Q_96tlY4xB8ijLoTD3Zy_GfmM4qQisMDr77Ew6m8OWmWoRGYq7KfD29lI0oxaLV&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4gGejvEWf_qhDl1MR8XssTXv-amSiXKP6VoudLUHixATLw&oe=69C51D79",
-      "https://scontent-cdg4-2.xx.fbcdn.net/v/t1.15752-9/622497787_2324677914668128_5895193310223230235_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_ohc=DkRvTfJHWcUQ7kNvwEJTqMC&_nc_oc=AdlV-qaRI7GWgrFZNUVsAuU4A432ojsof1b-yRbNJTWTsTdwoYrMuZk-YoENx0BlzuF9eDY-gsVLxchckV51ezxY&_nc_zt=23&_nc_ht=scontent-cdg4-2.xx&oh=03_Q7cD4gGwBPVHYjWsyGwtq24l32mBYBzo2w_hiIY_p9e6IxbLxA&oe=69C51463",
-    ]
-  },
-  rdv: {
-    title: "Premier rendez-vous 💕",
-    text: "Un moment magique à se souvenir pour toujours.",
-    images: [
-      "https://scontent-cdg4-3.xx.fbcdn.net/v/t1.15752-9/618341497_1388219976415493_3056603931016519401_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=9f807c&_nc_ohc=5v0pt5VO6TIQ7kNvwGO03wo&_nc_oc=AdlU4ncwOJ_yx6OpMj-LShGxOobJ-4D2wDLfDEqCFlTjyrsnn_d_O94mJKw7nITg72NH-jkdh6iAIOQRCzYt3-Jf&_nc_zt=23&_nc_ht=scontent-cdg4-3.xx&oh=03_Q7cD4gFmtKBksCv8_Hu15XCNtqiWFS15hQS0Gz9dV3sxCJiu1g&oe=69C4FD8B",
-    ]
-  },
-  voyage: {
-    title: "Premier voyage 🌍",
-    text: "Notre première aventure ensemble !",
-    images: [
-      "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552692749_805201081992544_2906701065117446650_n.png?_nc_cat=105&ccb=1-7&_nc_sid=9f807c&_nc_ohc=erNFphxNtsYQ7kNvwGht2H6&_nc_oc=AdkTHlH3hpGZlOe5iqUq1CSuyIQx0RYnlun0r2lmHRYdlB3Ul_UG1JnUKLRnIVNJOy-69uXe2e0emLYi2shuuGwh&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD4gFaV9XQWXtpswQHbHY7vdk1gtV5dOLFhKd5DAQc8d9yjA&oe=69C52C19",
-      "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.15752-9/552031287_25091359693783974_2718792458154926623_n.png?_nc_cat=105&ccb=1-7&_nc_sid=9f807c&_nc_ohc=IMq0tQcEL-4Q7kNvwEa9Oa5&_nc_oc=AdkkJZSN-O1e8Dt0SyxHwEAxlMyfyIPFweUg8gE6n8p-zKcdZpqG9z51KUEu8wqQH8lXGqxJyIqYnvCQE1GQOXiC&_nc_zt=23&_nc_ht=scontent-cdg4-1.xx&oh=03_Q7cD4gGNVAbnFefQo6vA6DRYZ9S3K2BNYYEdrxqowCrJMXr5Ug&oe=69C522BE",
-    ]
-  },
-  mariage: {
-    title: "💍 Demande en mariage",
-    text: "Un moment unique qui changera notre vie pour toujours...",
-    images: []
-  }
+  rencontre:{title:"Notre rencontre ✨", text:"Le jour où tout a commencé...", images:["https://picsum.photos/200?random=4","https://picsum.photos/200?random=5"]},
+  rdv:{title:"Premier rendez-vous 💕", text:"Un moment magique à se souvenir.", images:["https://picsum.photos/200?random=6"]},
+  voyage:{title:"Premier voyage 🌍", text:"Notre première aventure ensemble !", images:["https://picsum.photos/200?random=7","https://picsum.photos/200?random=8"]},
+  mariage:{title:"💍 Demande en mariage", text:"Un moment unique qui changera notre vie pour toujours...", images:[]}
 };
 
-/* =========================
-   MODAL ÉVÉNEMENTS
-========================= */
-function openEvent(key) {
-  const event = eventsContent[key];
-  document.getElementById("modalTitle").textContent = event.title;
-  document.getElementById("modalText").textContent = event.text;
-  const modalImages = document.getElementById("modalImages");
-  modalImages.innerHTML = "";
-  event.images.forEach(url => {
-    const img = document.createElement("img");
-    img.src = url;
-    modalImages.appendChild(img);
+// ======== MODAL ========
+function openEvent(key){
+  const e = eventsContent[key];
+  document.getElementById("modalTitle").textContent = e.title;
+  document.getElementById("modalText").textContent = e.text;
+  const imgs = document.getElementById("modalImages");
+  imgs.innerHTML="";
+  e.images.forEach(url=>{
+    const img=document.createElement("img"); img.src=url; imgs.appendChild(img);
   });
-  document.getElementById("eventModal").style.display = "flex";
+  document.getElementById("eventModal").style.display="flex";
 }
-function closeModal() {
-  document.getElementById("eventModal").style.display = "none";
-}
+function closeModal(){ document.getElementById("eventModal").style.display="none"; }
 
-/* =========================
-   COMPTEURS JOUR / Y-M-D
-========================= */
+// ======== COUNTERS DAYS & YMD ========
 const startDate = new Date("2025-02-25");
-function updateDaysTogether() {
-  const today = new Date();
-  const diffTime = Math.abs(today - startDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  document.getElementById("daysTogether").textContent = diffDays + " jours déjà 💖";
+function updateDaysTogether(){
+  const now = new Date();
+  const diff = Math.abs(now - startDate);
+  const days = Math.ceil(diff/(1000*60*60*24));
+  document.getElementById("daysTogether").textContent = days+" jours déjà 💖";
 
-  // Y-M-D
-  let years = today.getFullYear() - startDate.getFullYear();
-  let months = today.getMonth() - startDate.getMonth();
-  let days = today.getDate() - startDate.getDate();
-  if (days < 0) {
-    months--;
-    const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-    days += prevMonth.getDate();
-  }
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
-  document.getElementById("ymdTogether").textContent = `${years} an(s), ${months} mois et ${days} jour(s) 💕`;
+  let years = now.getFullYear()-startDate.getFullYear();
+  let months = now.getMonth()-startDate.getMonth();
+  let daysRem = now.getDate()-startDate.getDate();
+  if(daysRem<0){ months--; const prevMonth=new Date(now.getFullYear(),now.getMonth(),0); daysRem+=prevMonth.getDate(); }
+  if(months<0){ years--; months+=12; }
+  document.getElementById("ymdTogether").textContent = `${years} an(s), ${months} mois et ${daysRem} jour(s) 💕`;
 }
 updateDaysTogether();
+setInterval(updateDaysTogether, 60000);
 
-/* =========================
-   SECRET ALÉATOIRE
-========================= */
-const secrets = [
-  "Je t’aime plus que tout ❤️",
-  "Chaque jour avec toi est un cadeau 💝",
-  "Ton sourire illumine ma journée 🌟",
-  "Tu es mon petit bonheur quotidien 😊",
-  "Avec toi, tout devient plus beau 💖",
-  "Mon cœur bat plus fort pour toi 💘",
-  "Rien n’est plus doux que tes câlins 🤗",
-  "Tu es mon rayon de soleil ☀️",
-  "Je pense à toi à chaque instant 💭",
-  "À tes côtés, je me sens invincible 💪❤️",
-  "Chaque moment avec toi est magique ✨",
-  "Tu es mon rêve devenu réalité 🌙",
-  "Mon amour pour toi grandit chaque jour 🌹",
-  "Je ne peux pas m’empêcher de sourire grâce à toi 😄",
-  "Tu rends ma vie plus légère et plus belle 🌈",
-  "Je t’adore infiniment 🥰",
-  "Mon cœur t’appartient totalement 💓",
-  "Rien n’est plus précieux que ton amour 💎",
-  "Chaque seconde loin de toi me manque 😢",
-  "Tu es mon univers entier 🌌"
-];
-function revealMessage() {
-  const msgEl = document.getElementById("secretMessage");
-  msgEl.textContent = secrets[Math.floor(Math.random() * secrets.length)];
-  msgEl.style.display = "block";
-}
+// ======== SECRET MESSAGE ========
+const secrets = ["Je t’aime plus que tout ❤️","Chaque jour avec toi est un cadeau 💝","Ton sourire illumine ma journée 🌟"];
+function revealMessage(){ const m = document.getElementById("secretMessage"); m.textContent=secrets[Math.floor(Math.random()*secrets.length)]; m.style.display="block"; }
 
-/* =========================
-   DEMANDE EN MARIAGE / COUNTDOWN
-========================= */
+// ======== PROPOSAL COUNTDOWN ========
 const proposalDate = new Date("2032-07-25T00:00:00");
 const revealDate = new Date(proposalDate.getTime() - (24*60*60*1000));
-
-function updateProposal() {
+function updateProposal(){
   const now = new Date();
   const proposalEl = document.getElementById("proposalEvent");
   const countdownEl = document.getElementById("proposalCountdown");
-  if (!proposalEl || !countdownEl) return;
+  if(!proposalEl||!countdownEl) return;
+  const diff = proposalDate-now;
 
-  const diff = proposalDate - now;
-
-  if (now >= proposalDate) {
-    proposalEl.innerHTML = "💍 25 Juillet 2032 — Elle a dit OUI ❤️";
-    countdownEl.textContent = "C'est le plus beau jour de notre vie 💖";
-    eventsContent.mariage.text = "Le 25 Juillet 2032... Le jour où je te demanderai de passer ta vie avec moi ❤️";
+  if(now>=proposalDate){
+    proposalEl.innerHTML="💍 25 Juillet 2032 — Elle a dit OUI ❤️";
+    countdownEl.textContent="C'est le plus beau jour de notre vie 💖";
+    eventsContent.mariage.text="Le 25 Juillet 2032... Le jour où je te demanderai de passer ta vie avec moi ❤️";
     return;
   }
-
-  if (now >= revealDate) {
-    proposalEl.innerHTML = "💍 25 Juillet 2032 — Demande en mariage";
-  } else {
-    proposalEl.innerHTML = "💍 Demande en mariage...";
-  }
-
-  const days = Math.floor(diff / (1000*60*60*24));
-  const hours = Math.floor((diff / (1000*60*60)) % 24);
-  const minutes = Math.floor((diff / (1000*60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  countdownEl.textContent = `${days}j ${hours}h ${minutes}m ${seconds}s avant le moment le plus important 💕`;
+  proposalEl.innerHTML = now>=revealDate ? "💍 25 Juillet 2032 — Demande en mariage" : "💍 Demande en mariage...";
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor((diff/(1000*60*60))%24);
+  const m=Math.floor((diff/(1000*60))%60);
+  const s=Math.floor((diff/1000)%60);
+  countdownEl.textContent = `${d}j ${h}h ${m}m ${s}s avant le moment le plus important 💕`;
 }
-setInterval(updateProposal, 1000);
+setInterval(updateProposal,1000);
 updateProposal();
 
-/* =========================
-   FADE-IN AU SCROLL
-========================= */
-function onScrollFadeIn() {
-  document.querySelectorAll('.fade-in').forEach(el => {
-    if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('visible');
-  });
-}
-window.addEventListener('scroll', onScrollFadeIn);
-window.addEventListener('load', onScrollFadeIn);
+// ======== FADE IN SCROLL ========
+function fadeScroll(){ document.querySelectorAll('.fade-in').forEach(el=>{ if(el.getBoundingClientRect().top<window.innerHeight-100) el.classList.add('visible'); }); }
+window.addEventListener('scroll',fadeScroll);
+window.addEventListener('load',fadeScroll);
 
-/* =========================
-   ÉTOILES & CŒURS
-========================= */
-const starsCanvas = document.getElementById("starsCanvas");
-const heartsCanvas = document.getElementById("heartsCanvas");
-const sCtx = starsCanvas.getContext("2d");
-const hCtx = heartsCanvas.getContext("2d");
+// ======== STARS & HEARTS ========
+const starsCanvas=document.getElementById("starsCanvas");
+const heartsCanvas=document.getElementById("heartsCanvas");
+const sCtx=starsCanvas.getContext("2d");
+const hCtx=heartsCanvas.getContext("2d");
+let stars=[],hearts=[];
+let heartsEnabled=true;
+const isMobile = window.innerWidth<600;
+const maxStars = isMobile?60:120;
+const maxHearts = isMobile?50:100;
 
-function resizeCanvas() {
+function resizeCanvas(){
   starsCanvas.width = heartsCanvas.width = window.innerWidth;
   starsCanvas.height = heartsCanvas.height = window.innerHeight;
+  stars=[]; hearts=[];
+  for(let i=0;i<maxStars;i++) stars.push({x:Math.random()*starsCanvas.width,y:Math.random()*starsCanvas.height,radius:Math.random()*1.5+0.5,alpha:Math.random(),delta:Math.random()*0.02+0.01});
 }
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize",resizeCanvas);
 resizeCanvas();
 
-const isMobile = window.innerWidth < 600;
-const maxStars = isMobile ? 60 : 120;
-const maxHearts = isMobile ? 50 : 100;
-
-/* --- Stars --- */
-let stars = [];
-for (let i=0; i<maxStars; i++) {
-  stars.push({x:Math.random()*starsCanvas.width, y:Math.random()*starsCanvas.height, radius:Math.random()*1.5+0.5, alpha:Math.random(), delta:Math.random()*0.02+0.01});
-}
-function animateStars() {
-  sCtx.clearRect(0,0,starsCanvas.width, starsCanvas.height);
+// Stars animation
+function animateStars(){
+  sCtx.clearRect(0,0,starsCanvas.width,starsCanvas.height);
   stars.forEach(star=>{
-    star.alpha += star.delta;
-    if(star.alpha>1||star.alpha<0) star.delta=-star.delta;
-    sCtx.beginPath();
-    sCtx.arc(star.x, star.y, star.radius, 0, Math.PI*2);
-    sCtx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-    sCtx.fill();
+    star.alpha+=star.delta; if(star.alpha>1||star.alpha<0) star.delta=-star.delta;
+    sCtx.beginPath(); sCtx.arc(star.x,star.y,star.radius,0,Math.PI*2); sCtx.fillStyle=`rgba(255,255,255,${star.alpha})`; sCtx.fill();
   });
   requestAnimationFrame(animateStars);
 }
 animateStars();
 
-/* --- Hearts --- */
-class Heart {
-  constructor() {
-    this.x = Math.random()*heartsCanvas.width;
-    this.y = -20;
-    this.size = Math.random()*25+10;
-    this.speed = Math.random()*1.2+0.3;
-    this.opacity = Math.random()*0.5+0.5;
-    this.color = ["rgba(230,0,115,","rgba(255,105,180,","rgba(255,0,85,","rgba(186,85,211,")[
-      Math.floor(Math.random()*4)
-    ];
-    this.fading = false;
+// Heart class
+class Heart{
+  constructor(){
+    this.x=Math.random()*heartsCanvas.width;
+    this.y=-20;
+    this.size=Math.random()*25+10;
+    this.speed=Math.random()*1.2+0.3;
+    this.opacity=Math.random()*0.5+0.5;
+    this.color=["rgba(230,0,115,","rgba(255,105,180,","rgba(255,0,85,","rgba(186,85,211,")[Math.floor(Math.random()*4)];
+    this.fading=false;
   }
-  draw() {
-    hCtx.save();
-    hCtx.translate(this.x, this.y);
-    hCtx.scale(this.size/20,this.size/20);
-    hCtx.fillStyle=this.color+this.opacity+")";
-    hCtx.beginPath();
-    hCtx.moveTo(0,0);
-    hCtx.bezierCurveTo(-10,-10,-20,10,0,20);
-    hCtx.bezierCurveTo(20,10,10,-10,0,0);
-    hCtx.fill();
-    hCtx.restore();
-  }
-  update() {
-    this.y+=this.speed;
-    this.x+=Math.sin(this.y/40)*0.4;
-    if(this.fading){ this.opacity-=0.01; if(this.opacity<=0) this.remove=true; }
-    this.draw();
-  }
+  draw(){ hCtx.save(); hCtx.translate(this.x,this.y); hCtx.scale(this.size/20,this.size/20); hCtx.fillStyle=this.color+this.opacity+")"; hCtx.beginPath(); hCtx.moveTo(0,0); hCtx.bezierCurveTo(-10,-10,-20,10,0,20); hCtx.bezierCurveTo(20,10,10,-10,0,0); hCtx.fill(); hCtx.restore(); }
+  update(){ this.y+=this.speed; this.x+=Math.sin(this.y/40)*0.4; if(this.fading){this.opacity-=0.01;if(this.opacity<=0) this.remove=true;} this.draw(); }
 }
-let hearts=[];
-let heartsEnabled=true;
 function createHearts(){ if(heartsEnabled && hearts.length<maxHearts) hearts.push(new Heart()); }
-function animateHearts(){
-  hCtx.clearRect(0,0,heartsCanvas.width, heartsCanvas.height);
-  for(let i=hearts.length-1;i>=0;i--){
-    hearts[i].update();
-    if(hearts[i].y>heartsCanvas.height+30 || hearts[i].remove) hearts.splice(i,1);
-  }
-  requestAnimationFrame(animateHearts);
-}
+function animateHearts(){ hCtx.clearRect(0,0,heartsCanvas.width,heartsCanvas.height); for(let i=hearts.length-1;i>=0;i--){ hearts[i].update(); if(hearts[i].y>heartsCanvas.height+30 || hearts[i].remove) hearts.splice(i,1);} requestAnimationFrame(animateHearts);}
 setInterval(createHearts,300);
 animateHearts();
 
-document.getElementById("toggleHearts").addEventListener("click", ()=>{
+// Toggle hearts
+const toggleBtn = document.getElementById("toggleHearts");
+toggleBtn.addEventListener("click", ()=>{
   heartsEnabled=!heartsEnabled;
-  const btn=document.getElementById("toggleHearts");
-  btn.textContent=heartsEnabled?"💖 Cœurs ON":"💔 Cœurs OFF";
+  toggleBtn.textContent = heartsEnabled ? "💖 Cœurs ON" : "💔 Cœurs OFF";
 });
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

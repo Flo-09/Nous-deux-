@@ -247,8 +247,8 @@ footer {
 </section>
 
 <section class="fade-in">
-<h2>Nos 1 an 🎉</h2>
-<div id="countdown" class="counter"></div>
+<h2>💍 Demande en mariage</h2>
+<div id="proposalCountdown" class="counter"></div>
 </section>
 
 <footer>
@@ -376,13 +376,10 @@ function revealMessage() {
 
 /* --- Countdown --- */
 const targetDate = new Date("2026-02-25 00:00:00");
-function updateCountdown() {
-  const now = new Date();
-  const diff = targetDate - now;
-  if (diff <= 0) {
-    document.getElementById("countdown").textContent = "C'est le grand jour 🎊💖";
-    return;
-  }
+...
+setInterval(updateCountdown, 1000);
+updateCountdown();
+  
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
@@ -496,7 +493,43 @@ document.getElementById("toggleHearts").addEventListener("click", () => {
   btn.textContent = heartsEnabled ? "❤️‍🩹" : "❤️";
   if (!heartsEnabled) hearts.forEach(h => h.fading = true);
 });
-  /* ===== 💍 LOGIQUE DEMANDE EN MARIAGE ===== */
+  /* ===== 💍 DEMANDE EN MARIAGE SECRÈTE ===== */
+
+const proposalDate = new Date("2032-07-25T00:00:00");
+const revealDate = new Date(proposalDate.getTime() - (24 * 60 * 60 * 1000));
+
+function updateProposal() {
+  const now = new Date();
+  const proposalEl = document.getElementById("proposalEvent");
+  const countdownEl = document.getElementById("proposalCountdown");
+
+  if (!proposalEl || !countdownEl) return;
+
+  const diff = proposalDate - now;
+
+  if (now >= proposalDate) {
+    proposalEl.innerHTML = "💍 25 Juillet 2032 — Elle a dit OUI ❤️";
+    countdownEl.textContent = "C'est le plus beau jour de notre vie 💖";
+    return;
+  }
+
+  if (now >= revealDate) {
+    proposalEl.innerHTML = "💍 25 Juillet 2032 — Demande en mariage";
+  } else {
+    proposalEl.innerHTML = "💍 Demande en mariage...";
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  countdownEl.textContent =
+    `${days}j ${hours}h ${minutes}m ${seconds}s avant le moment le plus important 💕`;
+}
+
+setInterval(updateProposal, 1000);
+updateProposal();
 
 const proposalDate = new Date("2032-07-25T00:00:00");
 const revealDate = new Date(proposalDate.getTime() - (24 * 60 * 60 * 1000));
@@ -521,6 +554,7 @@ setInterval(updateProposalEvent, 60000);
 </script>
 </body>
 </html>
+
 
 
 

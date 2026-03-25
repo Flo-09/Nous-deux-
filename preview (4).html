@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Levelink Crowdfunding Carousel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#04080f;
+      --card:rgba(8,16,36,.94);
+      --card2:rgba(5,11,26,.82);
+      --bdr:rgba(41,121,255,.12);
+      --bdh:rgba(41,121,255,.28);
+      --A:#2979ff;
+      --AL:#29b6f6;
+      --AG:rgba(41,121,255,.32);
+      --t1:#ddeeff;
+      --t2:#9dc7ff;
+      --t3:rgba(122,156,200,.58);
+      --gold:#ffd45c;
+
+      --spring:cubic-bezier(.16,1,.3,1);
+      --bounce:cubic-bezier(.34,1.56,.64,1);
+      --out:cubic-bezier(.2,0,0,1);
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html,body{
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:var(--bg);
+      color:var(--t1);
+      font-family:'Rajdhani',sans-serif;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
+      background-size:28px 28px;
+      mask-image:radial-gradient(ellipse 90% 90% at center,black 20%,transparent 80%);
+      opacity:.18;
+      pointer-events:none;
+    }
+
+    .orb{
+      position:fixed;
+      border-radius:50%;
+      pointer-events:none;
+      z-index:0;
+      filter:blur(4px);
+    }
+
+    .orb1{
+      width:620px;
+      height:620px;
+      top:-220px;
+      left:-170px;
+      background:radial-gradient(circle,rgba(41,121,255,.13),transparent 62%);
+      animation:orb1 18s ease-in-out infinite;
+    }
+
+    .orb2{
+      width:440px;
+      height:440px;
+      right:-120px;
+      bottom:-100px;
+      background:radial-gradient(circle,rgba(41,182,246,.10),transparent 62%);
+      animation:orb2 24s ease-in-out infinite reverse;
+    }
+
+    @keyframes orb1{
+      0%,100%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(38px,-20px) scale(1.08)}
+    }
+
+    @keyframes orb2{
+      0%,100%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(-26px,20px) scale(.96)}
+    }
+
+    .frame{
+      position:relative;
+      z-index:1;
+      width:100vw;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .phone{
+      width:min(100%,430px);
+      height:min(92vh,880px);
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .panel{
+      position:relative;
+      width:100%;
+      max-width:390px;
+      min-height:420px;
+      padding:18px 16px 26px;
+      border-radius:28px;
+      background:
+        linear-gradient(180deg,rgba(8,18,48,.96),rgba(4,10,26,.94));
+      border:1px solid var(--bdr);
+      box-shadow:
+        0 24px 65px rgba(0,0,32,.62),
+        0 0 0 1px rgba(41,121,255,.08) inset,
+        0 0 40px rgba(41,121,255,.10);
+      overflow:hidden;
+      animation:panelIn .65s var(--spring);
+      backdrop-filter:blur(14px);
+    }
+
+    .panel::before{
+      content:'';
+      position:absolute;
+      inset:10px;
+      border:1px solid rgba(41,121,255,.16);
+      border-radius:20px;
+      pointer-events:none;
+    }
+
+    .panel::after{
+      content:'';
+      position:absolute;
+      left:22px;
+      right:22px;
+      top:0;
+      height:2px;
+      background:linear-gradient(90deg,transparent,var(--A),var(--AL),transparent);
+      box-shadow:0 0 16px var(--AG);
+      animation:scanLine 3.5s ease-in-out infinite;
+    }
+
+    @keyframes panelIn{
+      0%{opacity:0;transform:translateY(18px) scale(.97)}
+      100%{opacity:1;transform:none}
+    }
+
+    @keyframes scanLine{
+      0%,100%{opacity:.28;transform:scaleX(.35)}
+      50%{opacity:1;transform:scaleX(1)}
+    }
+
+    .topline{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+      position:relative;
+      z-index:2;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .mini-badge{
+      width:42px;
+      height:42px;
+      border-radius:13px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(41,121,255,.10);
+      border:1px solid rgba(41,121,255,.22);
+      box-shadow:0 0 16px rgba(41,121,255,.10);
+      font-family:'Orbitron',monospace;
+      font-size:16px;
+      font-weight:900;
+      color:var(--A);
+    }
+
+    .brand-copy small{
+      display:block;
+      font-family:'Orbitron',monospace;
+      font-size:7px;
+      letter-spacing:2.5px;
+      color:var(--t3);
+      text-transform:uppercase;
+      margin-bottom:2px;
+    }
+
+    .brand-copy strong{
+      display:block;
+      font-family:'Orbitron',monospace;
+      font-size:16px;
+      letter-spacing:1.4px;
+      color:var(--t1);
+    }
+
+    .counter{
+      padding:8px 11px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.04);
+      font-family:'Orbitron',monospace;
+      font-size:9px;
+      color:var(--t2);
+      letter-spacing:1.2px;
+    }
+
+    .hero-box{
+      position:relative;
+      z-index:2;
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:20px;
+      padding:14px;
+      margin-bottom:12px;
+    }
+
+    .hero-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .rank-badge{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      background:rgba(41,121,255,.1);
+      border:1px solid rgba(41,121,255,.22);
+      box-shadow:0 0 18px rgba(41,121,255,.12);
+      animation:rankGlow 3.5s ease-in-out infinite;
+    }
+
+    .rank-badge span{
+      font-family:'Orbitron',monospace;
+      font-size:22px;
+      font-weight:900;
+      color:var(--A);
+    }
+
+    @keyframes rankGlow{
+      0%,100%{box-shadow:0 0 16px rgba(41,121,255,.12)}
+      50%{box-shadow:0 0 28px rgba(41,121,255,.24),0 0 54px rgba(41,121,255,.08)}
+    }
+
+    .xp-wrap{
+      flex:1;
+      min-width:0;
+    }
+
+    .xp-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:12px;
+      margin-bottom:6px;
+    }
+
+    .xp-top .left,
+    .xp-top .right{
+      font-family:'Orbitron',monospace;
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .xp-top .left{color:var(--t2)}
+    .xp-top .right{color:var(--t3)}
+
+    .xp-track{
+      height:6px;
+      background:rgba(41,121,255,.07);
+      border:1px solid rgba(41,121,255,.08);
+      border-radius:999px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .xp-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--A),var(--AL),var(--A));
+      background-size:200% 100%;
+      box-shadow:0 0 12px var(--AG);
+      animation:xpFlow 3s linear infinite;
+      transition:width .8s var(--spring);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .xp-fill::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+      animation:shimmer 2.2s ease-in-out infinite;
+    }
+
+    @keyframes shimmer{
+      0%{transform:translateX(-120%)}
+      100%{transform:translateX(120%)}
+    }
+
+    @keyframes xpFlow{
+      0%{background-position:0% 50%}
+      100%{background-position:200% 50%}
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .stat{
+      padding:10px 8px;
+      border-radius:14px;
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.04);
+      text-align:center;
+    }
+
+    .stat strong{
+      display:block;
+      font-family:'Orbitron',monospace;
+      font-size:14px;
+      color:var(--t1);
+      margin-bottom:3px;
+    }
+
+    .stat span{
+      display:block;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:1.3px;
+      color:var(--t3);
+      font-family:'Orbitron',monospace;
+    }
+
+    .content{
+      position:relative;
+      z-index:2;
+      min-height:138px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      gap:14px;
+      padding:8px 8px 2px;
+    }
+
+    .line{
+      font-family:'Orbitron',monospace;
+      letter-spacing:.6px;
+      line-height:1.34;
+      opacity:0;
+      transform:translateY(10px);
+      animation:textIn .48s ease forwards;
+      max-width:300px;
+    }
+
+    .line.small{
+      font-size:11px;
+      color:var(--t3);
+      text-transform:uppercase;
+      letter-spacing:2.2px;
+    }
+
+    .line.main{
+      font-size:23px;
+      font-weight:900;
+      color:var(--t1);
+    }
+
+    .line.sub{
+      font-size:16px;
+      color:var(--t2);
+    }
+
+    .accent{
+      color:var(--gold);
+      text-shadow:0 0 10px rgba(255,212,92,.22);
+    }
+
+    .strong{
+      color:#fff;
+    }
+
+    @keyframes textIn{
+      to{
+        opacity:1;
+        transform:none;
+      }
+    }
+
+    .cta-box{
+      position:relative;
+      z-index:2;
+      margin-top:14px;
+      padding:14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+      display:grid;
+      gap:10px;
+    }
+
+    .cta-copy{
+      text-align:center;
+      font-size:14px;
+      font-weight:600;
+      color:var(--t2);
+      line-height:1.35;
+    }
+
+    .cta-copy b{
+      color:#fff;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      min-width:136px;
+      height:48px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-family:'Orbitron',monospace;
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:1.7px;
+      text-transform:uppercase;
+      transition:
+        transform .22s var(--bounce),
+        box-shadow .22s,
+        opacity .22s,
+        border-color .22s,
+        background .22s;
+    }
+
+    .btn:active{
+      transform:scale(.95);
+    }
+
+    .btn-primary{
+      color:#fff;
+      background:linear-gradient(135deg,var(--A),var(--AL));
+      box-shadow:0 10px 30px var(--AG);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 38px var(--AG);
+    }
+
+    .btn-secondary{
+      color:var(--t1);
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .btn-secondary:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.14);
+    }
+
+    .dots{
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      transform:translateX(-50%);
+      display:flex;
+      gap:8px;
+      z-index:3;
+    }
+
+    .dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:rgba(255,255,255,.22);
+      transition:.25s ease;
+    }
+
+    .dot.active{
+      width:24px;
+      background:linear-gradient(90deg,var(--A),var(--AL));
+      box-shadow:0 0 12px rgba(41,121,255,.45);
+    }
+
+    .swipe-zone{
+      position:absolute;
+      inset:0;
+      z-index:4;
+    }
+
+    @media (max-width:460px){
+      .panel{
+        max-width:100%;
+        min-height:400px;
+        padding:16px 14px 24px;
+      }
+
+      .line.main{font-size:20px}
+      .line.sub{font-size:15px}
+      .stats{gap:6px}
+      .stat strong{font-size:13px}
+      .btn{
+        min-width:122px;
+        height:46px;
+        font-size:9px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="frame">
+    <div class="phone">
+      <div class="panel" id="panel">
+        <div class="topline">
+          <div class="brand">
+            <div class="mini-badge">L</div>
+            <div class="brand-copy">
+              <small>Levelink</small>
+              <strong id="brandLabel">ORIGIN</strong>
+            </div>
+          </div>
+          <div class="counter" id="counter">1 / 6</div>
+        </div>
+
+        <div class="hero-box">
+          <div class="hero-row">
+            <div class="rank-badge"><span id="rankTxt">E</span></div>
+
+            <div class="xp-wrap">
+              <div class="xp-top">
+                <span class="left" id="xpLabel">14 / 100 XP</span>
+                <span class="right" id="xpNext">→ Rang D</span>
+              </div>
+              <div class="xp-track">
+                <div class="xp-fill" id="xpFill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong id="statOne">2</strong>
+              <span>Soutiens</span>
+            </div>
+            <div class="stat">
+              <strong id="statTwo">0€</strong>
+              <span>Départ</span>
+            </div>
+            <div class="stat">
+              <strong id="statThree">Live</strong>
+              <span>Projet</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content" id="content"></div>
+
+        <div class="cta-box">
+          <div class="cta-copy" id="ctaCopy">
+            Chaque participation aide à accélérer <b>le développement</b>.
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="leftBtn">Je participe</button>
+            <button class="btn btn-secondary" id="rightBtn">Plus tard</button>
+          </div>
+        </div>
+
+        <div class="dots" id="dots"></div>
+      </div>
+
+      <div class="swipe-zone" id="swipeZone"></div>
+    </div>
+  </div>
+
+  <script>
+    const slides = [
+      {
+        label: "ORIGIN",
+        rank: "E",
+        xp: 14,
+        xpLabel: "14 / 100 XP",
+        xpNext: "→ Rang D",
+        stats: ["2", "0€", "Live"],
+        statsLabels: ["Soutiens", "Départ", "Projet"],
+        lines: [
+          { cls: "small", text: "[LEVELINK SYSTEM]" },
+          { cls: "main", text: "[UN PROJET EST EN TRAIN DE NAÎTRE]" },
+          { cls: "sub", text: "[ET TU PEUX L’AIDER À MONTER DE <span class='accent'>NIVEAU</span>]" }
+        ],
+        cta: "Les premiers soutiens lancent vraiment le projet.",
+        left: "Voir",
+        right: "Passer"
+      },
+      {
+        label: "ORIGIN",
+        rank: "D",
+        xp: 28,
+        xpLabel: "28 / 100 XP",
+        xpNext: "→ Rang C",
+        stats: ["2", "1", "Vision"],
+        statsLabels: ["Personnes", "But", "Claire"],
+        lines: [
+          { cls: "small", text: "[LEVELINK ORIGIN]" },
+          { cls: "main", text: "[2 PERSONNES • UNE VISION]" },
+          { cls: "sub", text: "[<span class='accent'>0€ POUR ACCÉLÉRER</span> MAIS UN VRAI PROJET]" }
+        ],
+        cta: "Ce n’est pas une idée vague. Le projet existe déjà.",
+        left: "Continuer",
+        right: "Ignorer"
+      },
+      {
+        label: "BUILD",
+        rank: "D",
+        xp: 44,
+        xpLabel: "44 / 100 XP",
+        xpNext: "→ Rang C",
+        stats: ["UI", "XP", "Quêtes"],
+        statsLabels: ["Prototype", "Système", "Réel"],
+        lines: [
+          { cls: "small", text: "[LEVELINK BUILD]" },
+          { cls: "main", text: "[ON NE VEND PAS UN RÊVE]" },
+          { cls: "sub", text: "[ON EST DÉJÀ EN TRAIN DE LE <span class='strong'>CONSTRUIRE</span>]" }
+        ],
+        cta: "Ton soutien ne finance pas juste une idée. Il accélère quelque chose de réel.",
+        left: "Soutenir",
+        right: "Fermer"
+      },
+      {
+        label: "QUEST",
+        rank: "C",
+        xp: 63,
+        xpLabel: "63 / 100 XP",
+        xpNext: "→ Rang B",
+        stats: ["+Temps", "+Outils", "+Tests"],
+        statsLabels: ["Accélération", "Dev", "Versions"],
+        lines: [
+          { cls: "small", text: "[QUÊTE DISPONIBLE]" },
+          { cls: "main", text: "[CHAQUE SOUTIEN ACCÉLÈRE LE DÉVELOPPEMENT]" },
+          { cls: "sub", text: "[PLUS DE RESSOURCES = PLUS DE VITESSE]" }
+        ],
+        cta: "Même une petite participation peut faire avancer le projet.",
+        left: "Accepter",
+        right: "Plus tard"
+      },
+      {
+        label: "CHOICE",
+        rank: "B",
+        xp: 82,
+        xpLabel: "82 / 100 XP",
+        xpNext: "→ Rang A",
+        stats: ["Début", "Impact", "Réel"],
+        statsLabels: ["Phase", "Direct", "Projet"],
+        lines: [
+          { cls: "small", text: "[LEVELINK CHOICE]" },
+          { cls: "main", text: "[TU PEUX JUSTE REGARDER]" },
+          { cls: "sub", text: "[OU <span class='strong'>FAIRE PARTIE DU DÉBUT</span> DU PROJET]" }
+        ],
+        cta: "Les premiers soutiens seront ceux qui auront cru au projet avant tout le monde.",
+        left: "Rejoindre",
+        right: "Passer"
+      },
+      {
+        label: "FUND",
+        rank: "A",
+        xp: 100,
+        xpLabel: "100 / 100 XP",
+        xpNext: "→ Rang S",
+        stats: ["Quest", "Now", "Bio"],
+        statsLabels: ["Disponible", "Action", "Lien"],
+        lines: [
+          { cls: "small", text: "[MISSION FINALE]" },
+          { cls: "main", text: "[SOUTENIR LEVELINK]" },
+          { cls: "sub", text: "[CHAQUE PARTICIPATION COMPTE • <span class='accent'>LIEN EN BIO</span>]" }
+        ],
+        cta: "Si tu crois au projet, c’est maintenant que ça se joue.",
+        left: "Je participe",
+        right: "Plus tard"
+      }
+    ];
+
+    const panel = document.getElementById("panel");
+    const content = document.getElementById("content");
+    const counter = document.getElementById("counter");
+    const dots = document.getElementById("dots");
+    const brandLabel = document.getElementById("brandLabel");
+    const rankTxt = document.getElementById("rankTxt");
+    const xpFill = document.getElementById("xpFill");
+    const xpLabel = document.getElementById("xpLabel");
+    const xpNext = document.getElementById("xpNext");
+    const statOne = document.getElementById("statOne");
+    const statTwo = document.getElementById("statTwo");
+    const statThree = document.getElementById("statThree");
+    const ctaCopy = document.getElementById("ctaCopy");
+    const leftBtn = document.getElementById("leftBtn");
+    const rightBtn = document.getElementById("rightBtn");
+    const swipeZone = document.getElementById("swipeZone");
+
+    let index = 0;
+    let auto;
+    let startX = 0;
+    let startY = 0;
+
+    function initDots(){
+      dots.innerHTML = slides.map((_, i) => `<div class="dot ${i === 0 ? "active" : ""}"></div>`).join("");
+    }
+
+    function renderSlide(i, dir = 1){
+      const slide = slides[i];
+
+      panel.animate(
+        [
+          { opacity: .84, transform: `translateX(${dir > 0 ? 20 : -20}px) scale(.985)` },
+          { opacity: 1, transform: "translateX(0) scale(1)" }
+        ],
+        { duration: 280, easing: "cubic-bezier(.16,1,.3,1)" }
+      );
+
+      brandLabel.textContent = slide.label;
+      rankTxt.textContent = slide.rank;
+      xpLabel.textContent = slide.xpLabel;
+      xpNext.textContent = slide.xpNext;
+      xpFill.style.width = slide.xp + "%";
+
+      statOne.textContent = slide.stats[0];
+      statTwo.textContent = slide.stats[1];
+      statThree.textContent = slide.stats[2];
+
+      document.querySelectorAll(".stat span")[0].textContent = slide.statsLabels[0];
+      document.querySelectorAll(".stat span")[1].textContent = slide.statsLabels[1];
+      document.querySelectorAll(".stat span")[2].textContent = slide.statsLabels[2];
+
+      content.innerHTML = slide.lines.map((line, idx) =>
+        `<div class="line ${line.cls}" style="animation-delay:${idx * 0.12}s">${line.text}</div>`
+      ).join("");
+
+      ctaCopy.innerHTML = slide.cta;
+      leftBtn.textContent = slide.left;
+      rightBtn.textContent = slide.right;
+
+      counter.textContent = `${i + 1} / ${slides.length}`;
+
+      [...dots.children].forEach((dot, d) => {
+        dot.classList.toggle("active", d === i);
+      });
+    }
+
+    function nextSlide(){
+      index = (index + 1) % slides.length;
+      renderSlide(index, 1);
+    }
+
+    function prevSlide(){
+      index = (index - 1 + slides.length) % slides.length;
+      renderSlide(index, -1);
+    }
+
+    function restartAuto(){
+      clearInterval(auto);
+      auto = setInterval(nextSlide, 3600);
+    }
+
+    leftBtn.addEventListener("click", () => {
+      nextSlide();
+      restartAuto();
+    });
+
+    rightBtn.addEventListener("click", () => {
+      nextSlide();
+      restartAuto();
+    });
+
+    swipeZone.addEventListener("touchstart", (e) => {
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+    }, { passive: true });
+
+    swipeZone.addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) nextSlide();
+        else prevSlide();
+        restartAuto();
+      }
+    }, { passive: true });
+
+    initDots();
+    renderSlide(index);
+    auto = setInterval(nextSlide, 3600);
+  </script>
+</body>
+</html>

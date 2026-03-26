@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Levelink Viral Hook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#030813;
+      --bg2:#08172d;
+      --line:#2f7dff;
+      --line2:#2cc2ff;
+      --line3:#8a5cff;
+      --text:#eef7ff;
+      --muted:#9fc9ff;
+      --gold:#ffd75a;
+      --panel:rgba(7,16,36,.84);
+      --panel2:rgba(4,10,24,.94);
+      --spring:cubic-bezier(.16,1,.3,1);
+      --out:cubic-bezier(.2,0,0,1);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text)}
+    body{
+      font-family:'Rajdhani',sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(47,125,255,.18), transparent 24%),
+        radial-gradient(circle at 80% 88%, rgba(44,194,255,.10), transparent 22%),
+        linear-gradient(180deg,var(--bg2),var(--bg));
+    }
+
+    body::before{
+      content:"";
+      position:fixed; inset:0; pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+      background-size:26px 26px;
+      mask-image:radial-gradient(circle at center, black 28%, transparent 82%);
+      opacity:.16;
+    }
+
+    .orb{
+      position:fixed;border-radius:50%;pointer-events:none;filter:blur(10px);
+    }
+    .orb1{
+      width:720px;height:720px;top:-260px;left:-180px;
+      background:radial-gradient(circle, rgba(47,125,255,.12), transparent 62%);
+      animation:orbA 18s ease-in-out infinite;
+    }
+    .orb2{
+      width:460px;height:460px;right:-120px;bottom:-120px;
+      background:radial-gradient(circle, rgba(44,194,255,.08), transparent 60%);
+      animation:orbB 24s ease-in-out infinite reverse;
+    }
+    @keyframes orbA{
+      0%,100%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(32px,-24px) scale(1.06)}
+    }
+    @keyframes orbB{
+      0%,100%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(-20px,18px) scale(.96)}
+    }
+
+    .app{
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding:14px;
+    }
+
+    .phone{
+      position:relative;
+      width:min(100%,430px);
+      height:min(96vh,920px);
+      overflow:hidden;
+      border-radius:34px;
+      border:1px solid rgba(255,255,255,.05);
+      background:linear-gradient(180deg, rgba(7,14,30,.58), rgba(3,8,18,.88));
+      box-shadow:0 30px 90px rgba(0,0,0,.56), 0 0 0 1px rgba(47,125,255,.05) inset;
+      backdrop-filter:blur(16px);
+    }
+
+    .phone::before{
+      content:"";
+      position:absolute; top:0; left:20px; right:20px; height:2px; z-index:5;
+      background:linear-gradient(90deg, transparent, var(--line), var(--line2), transparent);
+      box-shadow:0 0 14px rgba(47,125,255,.34);
+      animation:scan 3s ease-in-out infinite;
+    }
+    @keyframes scan{
+      0%,100%{opacity:.2;transform:scaleX(.35)}
+      50%{opacity:1;transform:scaleX(1)}
+    }
+
+    .scene{
+      position:absolute; inset:0;
+      padding:18px 16px 22px;
+      display:flex; flex-direction:column;
+      opacity:0; pointer-events:none;
+      transform:scale(1.04);
+      transition:opacity .45s var(--out), transform .55s var(--out);
+    }
+    .scene.active{
+      opacity:1; pointer-events:auto; transform:none;
+    }
+
+    .flash{
+      position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(circle at center, rgba(47,125,255,.09), transparent 58%);
+      opacity:0;
+    }
+    .scene.active .flash{
+      animation:flashPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes flashPulse{
+      0%,100%{opacity:.10}
+      50%{opacity:.24}
+    }
+
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;
+      margin-bottom:12px; position:relative; z-index:2;
+    }
+
+    .brand{
+      display:flex;align-items:center;gap:10px;
+    }
+
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;
+      color:var(--line);
+      background:rgba(47,125,255,.1);
+      border:1px solid rgba(47,125,255,.22);
+      box-shadow:0 0 16px rgba(47,125,255,.12);
+    }
+
+    .brand-copy small{
+      display:block;
+      font-family:'Orbitron',sans-serif;
+      font-size:7px; letter-spacing:2.4px;
+      color:rgba(159,201,255,.56);
+      text-transform:uppercase;
+      margin-bottom:2px;
+    }
+
+    .brand-copy strong{
+      display:block;
+      font-family:'Orbitron',sans-serif;
+      font-size:15px; letter-spacing:1.2px;
+      color:var(--text);
+    }
+
+    .step{
+      padding:8px 11px;
+      border-radius:999px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      font-family:'Orbitron',sans-serif;
+      font-size:9px; letter-spacing:1.1px;
+      color:var(--muted);
+    }
+
+    .center{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      z-index:2;
+    }
+
+    .panel{
+      width:100%;
+      border-radius:28px;
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:1px solid rgba(47,125,255,.12);
+      box-shadow:0 18px 50px rgba(0,0,30,.36), 0 0 0 1px rgba(255,255,255,.02) inset;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .panel::before{
+      content:"";
+      position:absolute; inset:12px;
+      border:1px solid rgba(47,125,255,.14);
+      border-radius:18px;
+      pointer-events:none;
+    }
+
+    .panel::after{
+      content:"";
+      position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(circle at top right, rgba(44,194,255,.12), transparent 44%);
+    }
+
+    .hero{
+      padding:28px 18px 24px;
+      text-align:center;
+    }
+
+    .eyebrow{
+      font-family:'Orbitron',sans-serif;
+      font-size:8px; letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(159,201,255,.52);
+      margin-bottom:12px;
+      opacity:0; transform:translateY(8px);
+    }
+
+    .title{
+      font-family:'Orbitron',sans-serif;
+      font-size:34px;
+      line-height:1.08;
+      font-weight:900;
+      color:var(--text);
+      text-wrap:balance;
+      opacity:0; transform:translateY(14px);
+    }
+
+    .subtitle{
+      margin-top:14px;
+      font-size:19px;
+      line-height:1.42;
+      color:var(--muted);
+      text-wrap:balance;
+      opacity:0; transform:translateY(14px);
+    }
+
+    .scene.active .eyebrow,
+    .scene.active .title,
+    .scene.active .subtitle{
+      animation:fadeUp .48s var(--spring) forwards;
+    }
+    .scene.active .title{animation-delay:.06s}
+    .scene.active .subtitle{animation-delay:.14s}
+
+    @keyframes fadeUp{
+      to{opacity:1;transform:none}
+    }
+
+    .gold{color:var(--gold)}
+    .cyan{color:var(--line2)}
+    .white{color:#fff}
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .mini{
+      padding:14px 8px;
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.04);
+      text-align:center;
+      opacity:0; transform:translateY(10px);
+    }
+
+    .scene.active .mini{
+      animation:fadeUp .55s var(--spring) forwards;
+    }
+    .scene.active .mini:nth-child(1){animation-delay:.22s}
+    .scene.active .mini:nth-child(2){animation-delay:.30s}
+    .scene.active .mini:nth-child(3){animation-delay:.38s}
+
+    .mini strong{
+      display:block;
+      font-family:'Orbitron',sans-serif;
+      font-size:16px;
+      color:#fff;
+      margin-bottom:4px;
+    }
+
+    .mini span{
+      display:block;
+      font-family:'Orbitron',sans-serif;
+      font-size:8px;
+      letter-spacing:1.2px;
+      color:rgba(159,201,255,.52);
+      text-transform:uppercase;
+    }
+
+    .footer{
+      margin-top:auto;
+      padding-top:16px;
+      position:relative; z-index:2;
+    }
+
+    .cta-panel{
+      padding:18px 16px;
+      text-align:center;
+    }
+
+    .cta-text{
+      font-size:18px;
+      line-height:1.4;
+      color:var(--muted);
+      margin-bottom:16px;
+      text-wrap:balance;
+    }
+
+    .cta-text b{color:#fff}
+
+    .actions{
+      display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+    }
+
+    .btn{
+      min-width:146px;
+      height:54px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-family:'Orbitron',sans-serif;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .btn:active{transform:scale(.95)}
+
+    .btn-primary{
+      color:#fff;
+      background:linear-gradient(135deg,var(--line),var(--line2));
+      box-shadow:0 12px 34px rgba(47,125,255,.30);
+    }
+
+    .btn-primary.pulse{
+      animation:pulseBtn 1s ease-in-out infinite;
+    }
+
+    @keyframes pulseBtn{
+      0%,100%{box-shadow:0 12px 34px rgba(47,125,255,.30)}
+      50%{box-shadow:0 18px 50px rgba(47,125,255,.56)}
+    }
+
+    .btn-secondary{
+      color:var(--text);
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .progress-dots{
+      display:flex;justify-content:center;gap:8px;
+      margin-top:16px; position:relative; z-index:2;
+    }
+
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background:rgba(255,255,255,.22);
+      transition:.25s ease;
+    }
+
+    .dot.active{
+      width:28px;
+      background:linear-gradient(90deg,var(--line),var(--line2));
+      box-shadow:0 0 12px rgba(47,125,255,.38);
+    }
+
+    @media (max-width:460px){
+      .phone{height:100vh;border-radius:0;border:none}
+      .scene{padding:16px 14px 22px}
+      .title{font-size:28px}
+      .subtitle,.cta-text{font-size:17px}
+      .btn{min-width:132px;height:50px;font-size:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="app">
+    <div class="phone">
+
+      <!-- 1 -->
+      <section class="scene active" data-duration="1400">
+        <div class="flash"></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">L</div>
+            <div class="brand-copy">
+              <small>levelink system</small>
+              <strong>HOOK</strong>
+            </div>
+          </div>
+          <div class="step">01 / 05</div>
+        </div>
+
+        <div class="center">
+          <div class="panel hero">
+            <div class="eyebrow">Stop scroll</div>
+            <div class="title">[ ET SI TA VIE DEVENAIT UN JEU ? ]</div>
+            <div class="subtitle">Pas demain. <span class="gold">Maintenant.</span></div>
+          </div>
+        </div>
+
+        <div class="progress-dots">
+          <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="scene" data-duration="1500">
+        <div class="flash"></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">L</div>
+            <div class="brand-copy">
+              <small>levelink system</small>
+              <strong>VÉRITÉ</strong>
+            </div>
+          </div>
+          <div class="step">02 / 05</div>
+        </div>
+
+        <div class="center">
+          <div class="panel hero">
+            <div class="eyebrow">Constat</div>
+            <div class="title">[ LE PROBLÈME, CE N’EST PAS TOI ]</div>
+            <div class="subtitle">C’est que ta vie ne te montre pas assez vite que tu avances.</div>
+          </div>
+        </div>
+
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section class="scene" data-duration="1600">
+        <div class="flash"></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">L</div>
+            <div class="brand-copy">
+              <small>levelink system</small>
+              <strong>CONCEPT</strong>
+            </div>
+          </div>
+          <div class="step">03 / 05</div>
+        </div>
+
+        <div class="center">
+          <div class="panel hero">
+            <div class="eyebrow">Système</div>
+            <div class="title">[ QUÊTES • XP • RANGS ]</div>
+            <div class="subtitle">Solo Leveling… mais dans ta vraie vie.</div>
+
+            <div class="mini-grid">
+              <div class="mini">
+                <strong>Quêtes</strong>
+                <span>Actions</span>
+              </div>
+              <div class="mini">
+                <strong>XP</strong>
+                <span>Progrès</span>
+              </div>
+              <div class="mini">
+                <strong>Rangs</strong>
+                <span>Niveaux</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section class="scene" data-duration="1500">
+        <div class="flash"></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">L</div>
+            <div class="brand-copy">
+              <small>levelink system</small>
+              <strong>PREUVE</strong>
+            </div>
+          </div>
+          <div class="step">04 / 05</div>
+        </div>
+
+        <div class="center">
+          <div class="panel hero">
+            <div class="eyebrow">Projet réel</div>
+            <div class="title">[ ON EST EN TRAIN DE LE CONSTRUIRE ]</div>
+            <div class="subtitle">Pas juste une idée. Un vrai projet, parti de zéro.</div>
+          </div>
+        </div>
+
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section class="scene" data-duration="2200">
+        <div class="flash"></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">L</div>
+            <div class="brand-copy">
+              <small>levelink system</small>
+              <strong>CTA</strong>
+            </div>
+          </div>
+          <div class="step">05 / 05</div>
+        </div>
+
+        <div class="center">
+          <div class="panel hero">
+            <div class="eyebrow">Question finale</div>
+            <div class="title">[ TU TESTERAIS ÇA ? ]</div>
+            <div class="subtitle">Et si t’y crois, aide-nous à accélérer le projet.</div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="panel cta-panel">
+            <div class="cta-text">
+              <b>Lien en bio.</b>  
+              Les premiers soutiens comptent le plus.
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-primary pulse">Je participe</button>
+              <button class="btn btn-secondary">Plus tard</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const scenes = [...document.querySelectorAll('.scene')];
+    let current = 0;
+    let timer = null;
+
+    function activateScene(index){
+      scenes.forEach((scene, i) => {
+        scene.classList.remove('active');
+        if(i === index) scene.classList.add('active');
+      });
+
+      clearTimeout(timer);
+      const duration = Number(scenes[index].dataset.duration || 1600);
+
+      timer = setTimeout(() => {
+        const next = current + 1;
+        if(next < scenes.length){
+          current = next;
+          activateScene(current);
+        } else {
+          setTimeout(() => {
+            current = 0;
+            activateScene(current);
+          }, 900);
+        }
+      }, duration);
+    }
+
+    activateScene(0);
+  </script>
+</body>
+</html>
